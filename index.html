@@ -217,7 +217,9 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:22px
 .fnav .logo{width:34px;height:34px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font:600 italic 17px var(--display);margin-right:4px;border:0;color:var(--plum);cursor:pointer}
 .fnav a{text-decoration:none;font-size:14px;padding:9px 13px;border-radius:99px;transition:background .2s;white-space:nowrap}
 .fnav a:hover,.fnav a.on{background:rgba(245,237,226,.14)}
-.fnav .go{background:var(--cream);color:var(--ink);font-weight:600;border:0;padding:9px 16px;border-radius:99px;cursor:pointer;font-size:14px;white-space:nowrap}
+.fnav .go{display:inline-flex;align-items:center;gap:10px;background:var(--cream);color:var(--plum);font-weight:600;border:0;padding:13px 22px;border-radius:99px;cursor:pointer;font-size:16px;white-space:nowrap}
+.fnav .go svg{width:16px;height:16px;transition:transform .3s}
+.fnav .go:hover svg{transform:translateX(3px)}
 @media (max-width:520px){.fnav a.opt{display:none}}
 
 /* cursor dot */
@@ -433,13 +435,8 @@ textarea.short{min-height:96px}
 </main>
 
 
-<nav class="fnav hide" id="fnav" aria-label="Sections">
-  <button class="logo" type="button" id="toTop" aria-label="Back to top">A?</button>
-  <a href="#brief" class="opt">Hello</a>
-  <a href="#evidence">Evidence</a>
-  <a href="#terms" class="opt">Terms</a>
-  <a href="#rules" class="opt">Rules</a>
-  <button class="go magnet" type="button" data-apply>Apply</button>
+<nav class="fnav hide" id="fnav" aria-label="Start">
+  <button class="go magnet" type="button" data-apply>Start the questions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
 </nav>
 
 <div class="app" id="app" hidden role="dialog" aria-modal="true" aria-label="Application form" data-lenis-prevent>
@@ -551,7 +548,7 @@ $$('.fnav a[href^="#"]').forEach(a=>a.addEventListener("click",e=>{
   const t=$(a.getAttribute("href")); if(!t) return; e.preventDefault();
   if(lenis) lenis.scrollTo(t,{offset:-10}); else t.scrollIntoView({behavior:reduce?"auto":"smooth"});
 }));
-$("#toTop").addEventListener("click",()=>{ if(lenis) lenis.scrollTo(0); else scrollTo({top:0,behavior:reduce?"auto":"smooth"}); });
+
 
 /* ---------- animations ---------- */
 if(G && ST && !reduce){
