@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Applications Inbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: Becky's private back office in the Enchanted Cottage palette. Summary first, then everyone's availability
+   on one fortnight board, then applicant cards with quick verdict buttons. Single theme by choice. */
+:root{
+  --cream:#f5ede2; --paper:#fbf7f0; --ink:#2e2230; --muted:#76655f; --plum:#433044; --rose:#b06e78; --rose-soft:#c9969d;
+  --sage:#9ba78d; --taupe:#a99589; --gold:#b79a63; --gold-light:#dcc392; --line:rgba(67,48,68,.16);
+  --display:"Cormorant Garamond",Garamond,"Times New Roman",serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--cream);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums}
+.idea,.card h4,.hello h2{overflow-wrap:anywhere}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px;border-radius:6px}
+.mono{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.wrap{max-width:1180px;margin:0 auto;padding:0 max(16px,3vw)}
+header{border-bottom:1px solid var(--line);background:rgba(245,237,226,.94);position:sticky;top:0;z-index:5;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+header .wrap{display:flex;align-items:center;gap:14px;padding-top:12px;padding-bottom:12px}
+header svg{width:26px;height:26px;flex:none}
+header h1{font:500 italic 24px/1 var(--display);margin:0;color:var(--plum);flex:1}
+.ghost{border:1px solid var(--plum);background:transparent;color:var(--plum);border-radius:99px;padding:7px 14px;cursor:pointer;font-size:14px}
+.ghost:hover{background:var(--plum);color:var(--cream)}
+main{padding:28px 0 80px}
+.hello{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.hello h2{font:500 clamp(40px,6vw,72px)/.95 var(--display);margin:0;color:var(--plum);letter-spacing:-.02em}
+.hello h2 em{color:var(--rose)}
+.notice{border:1px dashed var(--rose);background:var(--paper);border-radius:14px;padding:12px 16px;margin:0 0 20px;font-size:15px}
+/* gate */
+.gate{max-width:440px;margin:12vh auto 0;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px}
+.gate h2{font:500 40px/1 var(--display);margin:0 0 8px;color:var(--plum)}
+.gate p{color:var(--muted);margin:0 0 18px}
+.gate input{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--taupe);background:#fff;margin-bottom:12px}
+.btn{border:0;border-radius:99px;background:var(--plum);color:var(--cream);font-weight:600;padding:12px 22px;cursor:pointer}
+.btn:hover{background:var(--rose)}
+.err{color:#8a2f3b;font-size:14px;min-height:1.2em;margin:8px 0 0}
+/* summary */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:8px 14px;cursor:pointer;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.chip b{font:600 18px/1 var(--display)}
+.chip[aria-pressed="true"]{background:var(--plum);color:var(--cream);border-color:var(--plum)}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0 26px}
+.tools input{flex:1;min-width:180px;padding:10px 14px;border-radius:99px;border:1px solid var(--taupe);background:var(--paper)}
+/* availability board */
+section h3{font:500 32px/1 var(--display);color:var(--plum);margin:0 0 6px}
+section .sub{color:var(--muted);margin:0 0 14px;font-size:14px}
+.board{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--paper);margin-bottom:36px}
+.board table{border-collapse:collapse;width:100%;min-width:900px}
+.board th,.board td{border-right:1px solid var(--line);padding:8px 6px;vertical-align:top;text-align:left;font-size:13px}
+.board th{font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.board th .d{display:block;font:500 24px/1 var(--display);color:var(--plum);letter-spacing:0;text-transform:none;margin-top:2px}
+.board th.wk{background:#f6ece6}
+.board td.lab{font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap;width:70px}
+.who{display:flex;flex-direction:column;gap:4px}
+.who span{display:block;background:#efe3e4;border-radius:8px;padding:3px 7px;font-size:12px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.who span.sl{background:var(--plum);color:var(--gold-light)}
+/* cards */
+.list{display:grid;gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px 20px;display:grid;gap:12px}
+.card.st-Shortlisted{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.card.st-No{opacity:.6}
+.top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;justify-content:space-between}
+.top h4{font:500 34px/1 var(--display);margin:0;color:var(--plum)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--muted);font-size:13px}
+.pill{font:500 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;border-radius:99px;padding:5px 9px;border:1px solid var(--line);background:#fff}
+.pill.New{background:#f3dfe1;border-color:var(--rose-soft);color:#5b2f36}
+.pill.Shortlisted{background:var(--plum);color:var(--gold-light);border-color:var(--plum)}
+.pill.Maybe{background:#e3e7da;border-color:var(--sage);color:#3f4a35}
+.pill.No{background:#e9e1db;color:var(--muted)}
+.idea{margin:0;font:500 italic 22px/1.25 var(--display);color:var(--ink)}
+.idea::before{content:"First date: ";font:500 10px var(--mono);font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:var(--rose);display:block;margin-bottom:2px}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px 9px}
+.verdict{display:flex;flex-wrap:wrap;gap:8px}
+.verdict button{border:1px solid var(--plum);background:transparent;border-radius:99px;padding:8px 14px;cursor:pointer;font-size:14px;color:var(--plum)}
+.verdict button[aria-pressed="true"]{background:var(--plum);color:var(--gold-light)}
+.verdict button:hover{background:#efe3e4}
+.verdict button[aria-pressed="true"]:hover{background:var(--plum)}
+details{border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--rose);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:" ↓"}
+details[open] summary::after{content:" ↑"}
+.full{display:grid;gap:18px;margin-top:14px}
+.full h5{font:500 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.full p{margin:0;white-space:pre-wrap;max-width:72ch;overflow-wrap:anywhere}
+.mcq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px}
+@media (max-width:700px){.mcq{grid-template-columns:1fr}}
+.mcq div{font-size:14px}
+.mcq div b{display:block;font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.contact{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.contact a{color:var(--plum);font-weight:600}
+.notes textarea{width:100%;min-height:80px;border-radius:12px;border:1px solid var(--taupe);background:#fff;padding:10px 12px;resize:vertical}
+.saved{font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-left:8px}
+.empty{padding:40px;text-align:center;border:1px dashed var(--taupe);border-radius:18px;color:var(--muted)}
+.empty b{display:block;font:500 italic 30px var(--display);color:var(--plum);margin-bottom:6px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,160%);background:var(--plum);color:var(--cream);border:1px solid var(--gold);border-radius:12px;padding:10px 16px;transition:transform .35s;z-index:20;font-size:14px}
+.toast.show{transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <svg viewBox="0 0 28 28" aria-hidden="true"><path d="M17.5 3.5A10.5 10.5 0 1 0 24.5 20 8.5 8.5 0 1 1 17.5 3.5z" fill="#b79a63"/><path d="M21 6.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" fill="#b06e78"/></svg>
+  <h1>The Inbox</h1>
+  <button class="ghost" id="refresh" type="button" hidden>Refresh</button>
+  <button class="ghost" id="lock" type="button" hidden>Lock</button>
+</div></header>
+<main class="wrap" id="app"></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+/* Paste the same Google Apps Script web app URL as the questionnaire (ends in /exec). */
+const ENDPOINT = "";
+
+const QS = ["Why dating apps","Single for","Friends say","Saturday morning","Escape room role","When we disagree","Spontaneous plans","Phone habits","Showing interest","Sense of humour"];
+const WQ = ["The 48-hour test","Most ridiculous opinion","Idiot story","Learnt about self","Worth putting jeans on for"];
+const STATUSES = ["New","Shortlisted","Maybe","No"];
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let KEY = ""; try{ KEY = localStorage.getItem("aygtam-inbox-key")||""; }catch(e){}
+let ROWS = [], FILTER = "All", Q = "", DEMO = false;
+
+function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("show"),2600); }
+
+function gate(msg){
+  $("#refresh").hidden=true; $("#lock").hidden=true;
+  $("#app").innerHTML = `<div class="gate">
+    <h2>Private inbox</h2>
+    <p>Enter your inbox key (the one from the Apps Script log). It's remembered on this device until you press Lock.</p>
+    <form id="kf"><label class="mono" for="k" style="display:block;margin-bottom:6px">Inbox key</label>
+    <input id="k" type="password" autocomplete="current-password" required>
+    <button class="btn" type="submit">Open inbox</button></form>
+    <p class="err" id="err">${esc(msg||"")}</p></div>`;
+  $("#kf").addEventListener("submit",e=>{ e.preventDefault(); KEY=$("#k").value.trim(); load(); });
+  $("#k").focus();
+}
+
+async function load(){
+  if(!ENDPOINT){ DEMO=true; ROWS=demoRows(); render(); return; }
+  if(!KEY){ gate(); return; }
+  $("#app").innerHTML = `<p class="mono" style="color:var(--muted)">Fetching applications…</p>`;
+  try{
+    const r = await fetch(ENDPOINT+"?key="+encodeURIComponent(KEY),{cache:"no-store"});
+    const j = await r.json();
+    if(!j.ok){ if(j.error==="key"){ try{localStorage.removeItem("aygtam-inbox-key");}catch(e){} KEY=""; gate("That key didn't work. Check it against the Apps Script log."); return; } throw new Error(j.error); }
+    try{ localStorage.setItem("aygtam-inbox-key",KEY); }catch(e){}
+    ROWS = j.rows.sort((a,b)=>String(b.received).localeCompare(String(a.received)));
+    render();
+  }catch(err){
+    $("#app").innerHTML = `<div class="notice">Couldn't reach your Google Sheet. Check you're online, then press Refresh. (${esc(err.message||err)})</div>`;
+    $("#refresh").hidden=false; $("#lock").hidden=false;
+  }
+}
+
+async function update(id, fields){
+  const row = ROWS.find(r=>r.id===id); if(!row) return false;
+  Object.assign(row, fields.status!==undefined?{status:fields.status}:{}, fields.notes!==undefined?{myNotes:fields.notes}:{});
+  if(DEMO) return true;
+  try{
+    const r = await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({action:"update",key:KEY,id},fields))});
+    const j = await r.json(); if(!j.ok) throw new Error(j.error); return true;
+  }catch(e){ toast("Couldn't save that. Try again in a moment."); return false; }
+}
+
+const days = () => { const out=[], now=new Date(); now.setHours(0,0,0,0); for(let i=0;i<14;i++){ const d=new Date(now); d.setDate(now.getDate()+i); out.push(d);} return out; };
+const keyOf = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const ago = iso => { const t=new Date(iso); if(isNaN(t)) return ""; const m=(Date.now()-t)/60000; if(m<60) return Math.max(1,Math.round(m))+" min ago"; if(m<1440) return Math.round(m/60)+" h ago"; return t.toLocaleDateString("en-GB",{day:"numeric",month:"short"}); };
+const chaos = r => r.mcq.filter(x=>/^D\./.test(x)).length;
+
+function render(){
+  $("#refresh").hidden=DEMO; $("#lock").hidden=DEMO;
+  const counts = Object.fromEntries(STATUSES.map(s=>[s,ROWS.filter(r=>(r.status||"New")===s).length]));
+  const live = ROWS.filter(r=>r.status!=="No");
+  const shown = ROWS.filter(r=>(FILTER==="All"||(r.status||"New")===FILTER) && (!Q || (r.name+" "+r.firstDate).toLowerCase().includes(Q)));
+  const ds = days();
+  const cell = (k,slot) => { const ppl = live.filter(r=>(r.slots[k]||[]).includes(slot)); return `<div class="who">${ppl.map(r=>`<span class="${r.status==="Shortlisted"?"sl":""}" title="${esc(r.name)}">${esc(r.name)}</span>`).join("")}</div>`; };
+
+  $("#app").innerHTML = `
+  ${DEMO?`<div class="notice"><b>Not connected yet.</b> These are made-up example applications so you can see how the inbox works. They disappear once your Google Sheet is connected.</div>`:""}
+  <div class="hello"><h2>${ROWS.length} ${ROWS.length===1?"application":"applications"}, <em>${counts.New} unread</em></h2></div>
+  <div class="chips" role="group" aria-label="Filter by status">
+    ${["All",...STATUSES].map(s=>`<button class="chip" type="button" data-f="${s}" aria-pressed="${FILTER===s}"><b>${s==="All"?ROWS.length:counts[s]}</b>${s}</button>`).join("")}
+  </div>
+  <div class="tools"><input id="q" type="search" placeholder="Search names or date ideas" value="${esc(Q)}" aria-label="Search"></div>
+
+  <section>
+    <h3>Who's free when</h3>
+    <p class="sub">The next two weeks, everyone except your No pile. Shortlisted people are in plum.</p>
+    <div class="board"><table>
+      <thead><tr><th></th>${ds.map(d=>`<th class="${[0,6].includes(d.getDay())?"wk":""}">${d.toLocaleDateString("en-GB",{weekday:"short"})}<span class="d">${d.getDate()}</span></th>`).join("")}</tr></thead>
+      <tbody>${["Daytime","Evening"].map(sl=>`<tr><td class="lab">${sl}</td>${ds.map(d=>`<td>${cell(keyOf(d),sl)}</td>`).join("")}</tr>`).join("")}</tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h3>Applicants</h3>
+    <p class="sub">Newest first. Your verdicts and notes save to the Sheet.</p>
+    <div class="list">${shown.length?shown.map(card).join(""):`<div class="empty"><b>Nothing here yet</b>${ROWS.length?"Nobody matches that filter.":"Applications appear here as soon as they're submitted."}</div>`}</div>
+  </section>`;
+
+  document.querySelectorAll("[data-f]").forEach(b=>b.addEventListener("click",()=>{FILTER=b.dataset.f;render();}));
+  const q=$("#q"); q.addEventListener("input",()=>{ Q=q.value.trim().toLowerCase(); const pos=q.selectionStart; render(); const n=$("#q"); n.focus(); n.setSelectionRange(pos,pos); });
+  document.querySelectorAll("[data-v]").forEach(b=>b.addEventListener("click",async()=>{
+    const id=b.dataset.id, v=b.dataset.v, row=ROWS.find(r=>r.id===id);
+    const next = row.status===v ? "New" : v;
+    if(await update(id,{status:next})){ toast(next==="New"?"Moved back to New":row.name+": "+next); render(); }
+  }));
+  document.querySelectorAll("textarea[data-n]").forEach(t=>t.addEventListener("change",async()=>{
+    if(await update(t.dataset.n,{notes:t.value})){ const s=t.parentElement.querySelector(".saved"); s.textContent="Saved"; setTimeout(()=>s.textContent="",2000); }
+  }));
+  document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{
+    try{ await navigator.clipboard.writeText(b.dataset.copy); toast("Number copied"); }catch(e){ toast(b.dataset.copy); }
+  }));
+}
+
+function card(r){
+  const st = r.status||"New";
+  return `<article class="card st-${esc(st)}">
+    <div class="top"><h4>${esc(r.name)}</h4>
+      <div class="meta"><span class="pill ${esc(st)}">${esc(st)}</span><span>${esc(ago(r.received))}</span></div></div>
+    <p class="idea">${esc(r.firstDate)}</p>
+    <div class="stats">
+      <span class="stat">Chaos score: ${chaos(r)}/10 option Ds</span>
+      <span class="stat">${r.availability.length} slot${r.availability.length===1?"":"s"} free</span>
+      <span class="stat">Disagreements: ${esc((r.mcq[5]||"").slice(3))}</span>
+    </div>
+    <div class="verdict" role="group" aria-label="Verdict for ${esc(r.name)}">
+      ${["Shortlisted","Maybe","No"].map(v=>`<button type="button" data-id="${esc(r.id)}" data-v="${v}" aria-pressed="${st===v}">${v==="Shortlisted"?"Shortlist":v}</button>`).join("")}
+    </div>
+    <details><summary>Read everything</summary>
+      <div class="full">
+        <div class="contact"><h5 style="width:100%">Phone</h5><a href="tel:${esc(r.phone.replace(/[^\d+]/g,""))}">${esc(r.phone)}</a><button class="ghost" type="button" data-copy="${esc(r.phone)}">Copy</button></div>
+        <div><h5>Multiple choice</h5><div class="mcq">${r.mcq.map((a,i)=>`<div><b>${i+1}. ${esc(QS[i])}</b>${esc(a)}</div>`).join("")}</div></div>
+        ${r.written.map((w,i)=>`<div><h5>${11+i}. ${esc(WQ[i])}</h5><p>${esc(w)}</p></div>`).join("")}
+        <div><h5>Available</h5><p>${esc(r.availability.join(" · ")||"None picked")}${r.timing?"\nNotes: "+esc(r.timing):""}</p></div>
+        <div class="notes"><h5>My notes <span class="saved"></span></h5><textarea data-n="${esc(r.id)}" placeholder="Group chat verdict, red flags, green flags…">${esc(r.myNotes)}</textarea></div>
+      </div>
+    </details>
+  </article>`;
+}
+
+function demoRows(){
+  const ds=days(), k=i=>keyOf(ds[i]);
+  const w="This is an example answer so you can see how written answers look in your inbox. Real answers will be at least two hundred characters long and, with any luck, considerably more interesting than this one.";
+  return [
+    {id:"ex1",received:new Date(Date.now()-42*60000).toISOString(),status:"New",name:"Example: Tom",phone:"07700 900001",firstDate:"Sunday roast at a country pub, then a walk if it's not raining.",mcq:["A. Genuinely hoping to meet someone interesting.","A. Long enough to have developed a personality outside a relationship.","A. Funny, loyal and a bit of an idiot.","B. Coffee, food, a wander and seeing where we end up.","C. Finding obscure clues that everyone else missed.","A. We discuss it like two adults.","B. Love them, assuming I haven't already committed to something.","A. I can put it away and enjoy someone's company.","A. Consistent effort, making plans and actually communicating.","C. Silly, ridiculous and frequently at my own expense."],written:[w,w,w,w,w],availability:["Sat 22 Nov (evening)"],timing:"",myNotes:"",slots:{[k(2)]:["Evening"],[k(5)]:["Daytime","Evening"]}},
+    {id:"ex2",received:new Date(Date.now()-26*3600000).toISOString(),status:"Shortlisted",name:"Example: Sam",phone:"07700 900002",firstDate:"Board game café in town on a weekday evening, loser buys dessert.",mcq:["C. Boredom, loneliness and a questionable amount of optimism.","B. 1–9 months. I'm reasonably confident I've processed it.","D. I don't know. They mainly communicate with me through insults.","C. Gaming, takeaway and pretending the outside world doesn't exist.","D. Accidentally making things worse but providing excellent entertainment.","B. I need some time to cool off, then we talk.","C. I prefer a little warning. I'm spontaneous within scheduled hours.","B. I use it a fair bit, but I know when to put it down.","B. Playful teasing, flirting and finding excuses to see them.","A. Dry, sarcastic and occasionally inappropriate."],written:[w,w,w,w,w],availability:[],timing:"Free after 6 on weekdays",myNotes:"Group chat approves.",slots:{[k(2)]:["Evening"],[k(3)]:["Evening"],[k(9)]:["Evening"]}},
+    {id:"ex3",received:new Date(Date.now()-3*86400000).toISOString(),status:"No",name:"Example: Dave",phone:"07700 900003",firstDate:"Drinks somewhere, whatever you fancy really.",mcq:["D. I'm emotionally unavailable, but the algorithm doesn't need to know that.","D. Technically, that's still being negotiated.","C. A walking liability who somehow survives.","D. Recovering from Friday and reassessing my life choices.","B. Taking charge despite having absolutely no idea what's happening.","D. I disappear emotionally and reappear three business days later.","A. Give me 20 minutes. I'll find my passport.","D. Sorry, I was scrolling. What was the question?","D. Occasionally liking their Instagram story and hoping they take the hint.","D. I'm convinced I'm hilarious. Independent verification is unavailable."],written:[w,w,w,w,w],availability:[],timing:"",myNotes:"Seven Ds. No.",slots:{[k(4)]:["Daytime"]}}
+  ].map(r=>{ r.availability = Object.keys(r.slots).sort().map(key=>{ const d=new Date(key+"T12:00:00"); return d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})+" ("+r.slots[key].join(", ").toLowerCase()+")"; }); return r; });
+}
+
+$("#refresh").addEventListener("click",load);
+$("#lock").addEventListener("click",()=>{ try{localStorage.removeItem("aygtam-inbox-key");}catch(e){} KEY=""; ROWS=[]; gate("Locked."); });
+load();
+})();
+</script>
+</body>
+</html>
