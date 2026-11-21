@@ -531,7 +531,20 @@ const VIDEOS = {
   6:["garden","Gaming in the garden at golden hour. Peak me.","Video of the garden at sunset with a games console"],
   10:["wine","Nothing prepares you for the real thing.","Video of Becky pouring a drink, then dancing"]
 };
-const ROLL=[]; EXHIBITS.forEach((e,i)=>{ if(VIDEOS[ROLL.length]) ROLL.push({v:VIDEOS[ROLL.length]}); ROLL.push({p:e}); });
+const MORE = {
+  l1:["l1","Holiday mode: fully activated.","Becky from behind on holiday, in a crochet beach cover-up"],
+  l2:["l2","Has stood on a paddleboard. Briefly.","Becky in a life jacket next to a paddleboard"],
+  l3:["l3","Professional lilo tester.","Becky's legs on a lilo on the sea"],
+  l4:["l4","Still bendy. Don't ask me to prove it.","Becky doing a backbend on a beach"],
+  l5:["l5","Will sit in a giant tree face for a photo.","Becky sitting in a giant carved tree face"],
+  l6:["l6","Takes Oktoberfest very seriously.","Becky in a dirndl holding a beer stein"],
+  l7:["l7","Paris, in cow print.","Becky sitting outside Notre-Dame"],
+  l8:["l8","Lift selfie. Obviously.","Becky taking a mirror selfie in a lift"],
+  l9:["l9","Museum enjoyer. Mostly for the gift shop.","Becky from behind walking into a museum"]
+};
+const P = Object.fromEntries(EXHIBITS.map(e=>[e[0],e]));
+const ORDER = ["a","l1","b","v:2","l2","c","l6","d","v:6","l3","e","l5","f","l7","g","v:10","l4","h","l8","i","l9","j","k"];
+const ROLL = ORDER.map(k=> k.startsWith("v:") ? {v:VIDEOS[+k.slice(2)]} : {p:P[k]||MORE[k]});
 const LET="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 $("#htrack").innerHTML = ROLL.map((it,i)=> it.v
   ? `<figure class="card vcard" data-tilt data-hover><video src="videos/${it.v[0]}.mp4" poster="videos/${it.v[0]}.jpg" muted loop playsinline preload="metadata" aria-label="${esc(it.v[2])}"></video><span class="vtag">Video</span><span class="glare"></span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.v[1])}</figcaption></figure>`
