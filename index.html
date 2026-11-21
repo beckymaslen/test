@@ -676,7 +676,7 @@ function curtain(text, mid){
 /* ---------- application ---------- */
 /* Where applications are saved: your Google Apps Script web app URL (ends in /exec). Leave empty to use copy-and-send instead. */
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbzJRGMBPIp_fGnQ2DSZSiwbuOkbY5BrLLLvwJPubkgwN1N0ZQrG2U2YZiuqBAgZiGXk_w/exec";
-let step=1, SAVED=false;
+let step=1, SAVED=false, SAVE_ERR="";
 let S={mcq:Array(10).fill(null),written:Array(5).fill(""),name:"",phone:"",firstDate:"",reply:"",slots:{},notes:""};
 try{ const d=JSON.parse(localStorage.getItem("aygtam-draft")||"null"); if(d&&d.mcq) S=Object.assign(S,d); }catch(e){}
 const newId=()=>{ try{ return crypto.randomUUID(); }catch(e){ return Date.now().toString(36)+Math.random().toString(36).slice(2,10); } };
@@ -818,7 +818,7 @@ function done(){
   <p>Thank you for your interest in potentially becoming someone I voluntarily spend time with.</p>
   ${SAVED
     ? `<div class="notice"><b>Delivered.</b> Your application is safely in the pile. If you'd like a copy for your own records (or as proof you survived it), it's below.</div>`
-    : `<div class="notice"><b>One last step: send it over.</b> Your application couldn't be filed automatically just now, so copy it below and send it to her as a message on the app where you matched.</div>`}
+    : `<div class="notice"><b>One last step: send it over.</b> Your application couldn't be filed automatically just now, so copy it below and send it to her as a message on the app where you matched.<br><small style="opacity:.75">Technical note: ${esc(SAVE_ERR)}</small></div>`}
   <div class="copybox field"><label class="lbl" for="out">Your application</label><textarea id="out" readonly>${esc(summaryText())}</textarea>
   <div class="anav"><span class="hint" id="copied"></span><button class="btn" id="copy">Copy my application</button></div></div>`;
 }
@@ -900,11 +900,12 @@ function bind(){
         mcq:S.mcq.map((x,i)=>x===null?"":L[x]+". "+MCQ[i].o[x]),written:S.written.map(w=>w.trim()),
         availability:pickedList(),slots:S.slots,notes:S.notes||"",website:S.website||""};
       try{
-        const ctl=new AbortController(); const t=setTimeout(()=>ctl.abort(),20000);
+        const ctl=new AbortController(); const t=setTimeout(()=>ctl.abort(),30000);
         const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload),signal:ctl.signal});
-        clearTimeout(t); const j=await r.json(); SAVED=!!(j&&j.ok);
-      }catch(err){ SAVED=false; }
-    }
+        clearTimeout(t); const txt=await r.text(); let j=null; try{ j=JSON.parse(txt); }catch(e){ SAVE_ERR="Unexpected reply ("+r.status+"): "+txt.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim().slice(0,140); }
+        SAVED=!!(j&&j.ok); if(j&&!j.ok) SAVE_ERR="Sheet said: "+(j.error||"no reason");
+      }catch(err){ SAVED=false; SAVE_ERR=(err&&err.name==="AbortError")?"Timed out after 30 seconds":"Couldn't reach Google ("+(err&&err.message||err)+")"; }
+    } else { SAVE_ERR="Not connected (no Sheet link on this copy of the page)"; }
     curtain(SAVED?"Filed. Under review.":"Filing your paperwork",()=>{step=19;render(0);});
   });
   if(step===19){
