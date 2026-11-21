@@ -852,7 +852,6 @@ function go(n){ const d=n>step?1:-1; step=Math.max(1,Math.min(19,n)); render(d);
 function mcq(i){
   const q=MCQ[i];
   return `<p class="eyebrow">Part 1 · The preliminary investigation · ${i+1} of 10</p>
-  ${i===0?`<p class="instr">Choose one answer. Lying is not advised 👀 as I will eventually find out.</p>`:""}
   <h2 class="qh" id="qh">${esc(q.t)}</h2>
   <div class="opts" role="radiogroup" aria-labelledby="qh">
     ${q.o.map((o,j)=>`<button class="opt" role="radio" aria-checked="${S.mcq[i]===j}" data-pick="${j}" ${(S.mcq[i]===j||(S.mcq[i]===null&&j===0))?"data-autofocus":""}><span class="k">${L[j]}</span><span>${esc(o)}</span></button>`).join("")}
