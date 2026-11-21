@@ -281,6 +281,14 @@ footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:22px
 .abar .count{min-width:6ch;text-align:right}
 .xbtn{border:1px solid var(--plum);color:var(--plum);background:transparent;border-radius:99px;padding:7px 12px;cursor:pointer;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
 .xbtn:hover{background:var(--plum);color:var(--cream)}
+.clearrow{display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:10px;padding:8px calc(var(--gut) + 14px) 0}
+.clearbtn{background:none;border:0;color:var(--muted);font:500 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 2px}
+.clearbtn:hover{color:var(--rose)}
+.confirm{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--rose);border-radius:12px;padding:10px 12px}
+.confirm[hidden]{display:none}
+.confirm p{margin:0;font-size:14px;flex:1 1 220px}
+.xbtn.danger{border-color:var(--rose);color:var(--rose)}
+.xbtn.danger:hover{background:var(--rose);color:var(--cream)}
 .astage{max-width:880px;margin:0 auto;padding:clamp(28px,6vw,72px) calc(var(--gut) + 14px) 120px}
 .step{will-change:transform,opacity}
 .eyebrow{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rose);margin:0 0 14px}
@@ -508,6 +516,14 @@ textarea.short{min-height:96px}
     <div class="prog" aria-hidden="true"><span id="barFill"></span></div>
     <span class="mono count" id="count">Q1/15</span>
     <button class="xbtn" id="closeApp" type="button">Back to site</button>
+  </div>
+  <div class="clearrow">
+    <button class="clearbtn" id="clearAns" type="button">Clear my answers</button>
+    <div class="confirm" id="clearConfirm" hidden role="alertdialog" aria-labelledby="ccT">
+      <p id="ccT">Clear every answer and start again? This can't be undone.</p>
+      <button class="xbtn" id="ccNo" type="button">Keep them</button>
+      <button class="xbtn danger" id="ccYes" type="button">Yes, clear</button>
+    </div>
   </div>
   <div class="astage"><div class="step" id="stage" aria-live="polite"></div></div>
 </div>
@@ -776,6 +792,14 @@ function firstIncomplete(){
   for(let i=0;i<5;i++) if(S.written[i].trim().length<MIN) return i+12;
   return 17;
 }
+$("#clearAns").addEventListener("click",()=>{ $("#clearConfirm").hidden=false; $("#clearAns").hidden=true; $("#ccNo").focus(); });
+$("#ccNo").addEventListener("click",()=>{ $("#clearConfirm").hidden=true; $("#clearAns").hidden=false; $("#clearAns").focus(); });
+$("#ccYes").addEventListener("click",()=>{
+  S={mcq:Array(10).fill(null),written:Array(5).fill(""),name:"",phone:"",profile:"",firstDate:"",slots:{},notes:"",id:newId()};
+  try{ localStorage.removeItem("aygtam-draft"); }catch(e){}
+  SAVED=false; $("#clearConfirm").hidden=true; $("#clearAns").hidden=false;
+  step=1; render(-1);
+});
 function openApp(btn){
   opener=btn||null;
   curtain(S.mcq.some(x=>x!==null)?"Retrieving your file":"Opening your file",()=>{
