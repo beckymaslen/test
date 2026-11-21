@@ -7,16 +7,20 @@
 <title>Applications Inbox</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:"Ornette";src:local("Ornette"),local("Ornette Regular"),url("fonts/Ornette.woff2") format("woff2"),url("fonts/Ornette.otf") format("opentype"),url("fonts/Ornette.ttf") format("truetype");font-style:normal;font-display:swap}
+@font-face{font-family:"Ornette";src:local("Ornette"),local("Ornette Regular"),url("fonts/Ornette.woff2") format("woff2"),url("fonts/Ornette.otf") format("opentype"),url("fonts/Ornette.ttf") format("truetype");font-style:italic;font-display:swap}
 /* Layout idea: Becky's private back office in the Enchanted Cottage palette. Summary first, then everyone's availability
    on one fortnight board, then applicant cards with quick verdict buttons. Single theme by choice. */
 :root{
   --cream:#f5ede2; --paper:#fbf7f0; --ink:#2e2230; --muted:#76655f; --plum:#433044; --rose:#b06e78; --rose-soft:#c9969d;
   --sage:#9ba78d; --taupe:#a99589; --gold:#b79a63; --gold-light:#dcc392; --line:rgba(67,48,68,.16);
-  --display:"Cormorant Garamond",Garamond,"Times New Roman",serif;
-  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --script:"Ornette","Cormorant Garamond",Garamond,serif;          /* romantic signature headings + decorative words */
+  --display:"Cormorant Garamond","Cormorant",Garamond,"Times New Roman",serif; /* editorial titles + subheadings */
+  --body:Optima,"Optima nova","Optima LT Std","URW Classico",Candara,"Segoe UI",system-ui,sans-serif; /* paragraphs */
+  --ui:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;      /* navigation, labels, buttons */
+  --mono:var(--ui);
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -24,6 +28,7 @@ html,body{margin:0}
 body{background:var(--cream);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums}
 .idea,.card h4,.hello h2{overflow-wrap:anywhere}
 button,input,textarea{font:inherit;color:inherit}
+button,input,textarea,select,label,.btn,.pill,.chip,.xbtn,.ghost,.slot,.edit,.go{font-family:var(--ui)}
 :focus-visible{outline:3px solid var(--rose);outline-offset:2px;border-radius:6px}
 .mono{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
 .wrap{max-width:1180px;margin:0 auto;padding:0 max(16px,3vw)}
