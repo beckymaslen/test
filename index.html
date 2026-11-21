@@ -311,6 +311,10 @@ textarea.short{min-height:96px}
 .slot{font:500 12px var(--body);border:1px solid var(--line);background:var(--cream);border-radius:99px;padding:6px 4px;cursor:pointer}
 .slot:hover{border-color:var(--plum)}
 .slot[aria-pressed="true"]{background:var(--plum);border-color:var(--plum);color:var(--gold-light)}
+.slot.no{background:transparent;border-style:dashed;color:var(--muted);font-size:11px}
+.slot.no[aria-pressed="true"]{background:#e3d8ca;border:1px solid var(--taupe);color:var(--ink)}
+.day.na{opacity:.72}
+.day.na .dnum{text-decoration:line-through;text-decoration-color:var(--rose);text-decoration-thickness:2px}
 .picked{font:500 12px var(--mono);color:var(--muted);margin-top:14px}
 .small-print{margin-top:20px;font-size:14px;border:1px dashed var(--rose);border-radius:12px;padding:12px 14px;background:var(--paper)}
 .review{display:grid;gap:0;border-top:1px solid var(--plum);margin-top:16px}
@@ -682,7 +686,7 @@ function curtain(text, mid){
 /* Where applications are saved: your Google Apps Script web app URL (ends in /exec). Leave empty to use copy-and-send instead. */
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbzJRGMBPIp_fGnQ2DSZSiwbuOkbY5BrLLLvwJPubkgwN1N0ZQrG2U2YZiuqBAgZiGXk_w/exec";
 let step=1, SAVED=false, SAVE_ERR="";
-let S={mcq:Array(10).fill(null),written:Array(5).fill(""),name:"",phone:"",firstDate:"",reply:"",slots:{},notes:""};
+let S={mcq:Array(10).fill(null),written:Array(5).fill(""),name:"",phone:"",profile:"",firstDate:"",reply:"",slots:{},notes:""};
 try{ const d=JSON.parse(localStorage.getItem("aygtam-draft")||"null"); if(d&&d.mcq) S=Object.assign(S,d); }catch(e){}
 const newId=()=>{ try{ return crypto.randomUUID(); }catch(e){ return Date.now().toString(36)+Math.random().toString(36).slice(2,10); } };
 if(!S.id) S.id=newId();
@@ -716,7 +720,9 @@ addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("#app").hidden) closeA
 const days=()=>{ const out=[],now=new Date(); now.setHours(0,0,0,0); for(let i=1;i<=14;i++){const d=new Date(now); d.setDate(now.getDate()+i); out.push(d);} return out; };
 const keyOf=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const fmtDay=d=>d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
-const pickedList=()=>days().filter(d=>(S.slots[keyOf(d)]||[]).length).map(d=>fmtDay(d)+" ("+S.slots[keyOf(d)].join(", ").toLowerCase()+")");
+const NA="Not available";
+const freeOf=k=>(S.slots[k]||[]).filter(x=>SLOTS.includes(x));
+const pickedList=()=>days().filter(d=>freeOf(keyOf(d)).length).map(d=>fmtDay(d)+" ("+freeOf(keyOf(d)).join(", ").toLowerCase()+")");
 
 // steps: 1-10 mcq, 11 rules, 12-16 written, 17 diary, 18 review, 19 done
 function progress(){
@@ -786,13 +792,14 @@ function diary(){
   const ds=days();
   const wk=(arr,label)=>`<p class="week"><span>${label}</span><span class="swipe" aria-hidden="true">Swipe →</span></p><div class="days" role="group" aria-label="${label}">${arr.map(d=>{
     const k=keyOf(d), sel=S.slots[k]||[];
-    return `<div class="day ${sel.length?"on":""}"><span class="dname">${d.toLocaleDateString("en-GB",{weekday:"short"})}</span><span class="dnum">${d.getDate()}</span><span class="dmon">${d.toLocaleDateString("en-GB",{month:"short"})}</span>
-      ${SLOTS.map(s=>`<button class="slot" data-k="${k}" data-s="${s}" aria-pressed="${sel.includes(s)}" aria-label="${fmtDay(d)} ${s}">${s}</button>`).join("")}</div>`;}).join("")}</div>`;
+    return `<div class="day ${sel.some(x=>SLOTS.includes(x))?"on":""} ${sel.includes(NA)?"na":""}"><span class="dname">${d.toLocaleDateString("en-GB",{weekday:"short"})}</span><span class="dnum">${d.getDate()}</span><span class="dmon">${d.toLocaleDateString("en-GB",{month:"short"})}</span>
+      ${[...SLOTS,NA].map(s=>`<button class="slot${s===NA?" no":""}" data-k="${k}" data-s="${s}" aria-pressed="${sel.includes(s)}" aria-label="${fmtDay(d)} ${s}">${s}</button>`).join("")}</div>`;}).join("")}</div>`;
   return `<p class="eyebrow">Almost there · Your availability</p>
   <h2 class="qh">When could you actually leave the house?</h2>
   <p>Tap every slot in the next two weeks that genuinely works. Pick as many as you like. More options means fewer messages saying “what about Thursday?”</p>
   <div class="field"><label class="lbl" for="nm">Your name</label><input type="text" id="nm" autocomplete="given-name" value="${esc(S.name)}" placeholder="First name is fine" data-autofocus></div>
   <div class="field"><label class="lbl" for="ph">Your phone number</label><input type="tel" id="ph" autocomplete="tel" inputmode="tel" value="${esc(S.phone||"")}" placeholder="e.g. 07700 900123" aria-describedby="phHint"><p class="hint" id="phHint" style="margin-top:8px">Only used if your application is successful. No group chats, no spam, no voice notes.</p></div>
+  <div class="field"><label class="lbl" for="pl">What is the link to your profile on the dating app?</label><input type="text" id="pl" inputmode="url" autocomplete="url" value="${esc(S.profile||"")}" placeholder="Paste the link, or your name and the app if it doesn't do links"></div>
   <div class="field"><label class="lbl" for="fd">What's your suggestion for a first date?</label><textarea id="fd" class="short" placeholder="Don't be vague, and I'm not deciding." aria-describedby="fdHint">${esc(S.firstDate||"")}</textarea><p class="hint" id="fdHint" style="margin-top:8px">Where, what and roughly when. “Drinks somewhere” is vague.</p></div>
   ${wk(ds.slice(0,7),"Next 7 days")}${wk(ds.slice(7),"The week after")}
   <p class="picked" id="picked"></p>
@@ -810,6 +817,7 @@ function review(){
     ${WRITTEN.map((w,i)=>item((11+i)+". "+esc(w.t),esc(S.written[i])+` <span class="lab">(${S.written[i].trim().length} characters)</span>`,12+i,true)).join("")}
     ${item("Applicant",esc(S.name)+" · "+esc(S.phone||"")+(S.reply?" · "+esc(S.reply):""),17)}
     ${item("Availability",p.length?esc(p.join("; ")):"<em>None picked</em>",17)}
+    ${S.profile?item("Dating profile",esc(S.profile),17):""}
     ${item("First date suggestion",esc(S.firstDate||""),17)}
     ${S.notes?item("Timing notes",esc(S.notes),17):""}
   </div>
@@ -828,7 +836,7 @@ function done(){
   <div class="anav"><span class="hint" id="copied"></span><button class="btn" id="copy">Copy my application</button></div></div>`;
 }
 function summaryText(){
-  const l=["ARE YOU GOING TO ANNOY ME?™ — APPLICATION","From: "+S.name,"Phone: "+(S.phone||"")+(S.reply?"\nMatched on: "+S.reply:""),"","PART 1"];
+  const l=["ARE YOU GOING TO ANNOY ME?™ — APPLICATION","From: "+S.name,"Phone: "+(S.phone||"")+(S.profile?"\nProfile: "+S.profile:"")+(S.reply?"\nMatched on: "+S.reply:""),"","PART 1"];
   MCQ.forEach((q,i)=>l.push((i+1)+". "+q.t+"\n   "+(S.mcq[i]===null?"—":L[S.mcq[i]]+". "+q.o[S.mcq[i]])));
   l.push("","PART 2");
   WRITTEN.forEach((w,i)=>{l.push((11+i)+". "+w.t.toUpperCase(),S.written[i],"");});
@@ -885,13 +893,17 @@ function bind(){
     });
     $("#ph").addEventListener("input",e=>{S.phone=e.target.value;save();chk();});
     $("#fd").addEventListener("input",e=>{S.firstDate=e.target.value;save();chk();});
+    $("#pl").addEventListener("input",e=>{S.profile=e.target.value;save();});
     $("#website").addEventListener("input",e=>{S.website=e.target.value;});
     $("#nm").addEventListener("input",e=>{S.name=e.target.value;save();chk();});
     $("#nt").addEventListener("input",e=>{S.notes=e.target.value;save();});
     $$(".slot").forEach(b=>b.addEventListener("click",()=>{
       const k=b.dataset.k,s=b.dataset.s,arr=S.slots[k]||[],on=arr.includes(s);
-      S.slots[k]=on?arr.filter(x=>x!==s):SLOTS.filter(x=>x===s||arr.includes(x));
-      b.setAttribute("aria-pressed",String(!on)); b.closest(".day").classList.toggle("on",S.slots[k].length>0);
+      if(s===NA) S.slots[k]=on?[]:[NA];
+      else S.slots[k]=on?arr.filter(x=>x!==s&&x!==NA):SLOTS.filter(x=>x===s||arr.includes(x));
+      const day=b.closest(".day");
+      day.querySelectorAll(".slot").forEach(x=>x.setAttribute("aria-pressed",String(S.slots[k].includes(x.dataset.s))));
+      day.classList.toggle("on",freeOf(k).length>0); day.classList.toggle("na",S.slots[k].includes(NA));
       if(G&&!reduce&&!on) G.fromTo(b,{scale:.85},{scale:1,duration:.4,ease:"back.out(3)"});
       save(); chk();
     }));
@@ -901,7 +913,7 @@ function bind(){
     const btn=e.currentTarget; btn.disabled=true; btn.textContent="Filing…";
     SAVED=false;
     if(ENDPOINT){
-      const payload={id:S.id,name:S.name.trim(),phone:(S.phone||"").trim(),firstDate:(S.firstDate||"").trim(),
+      const payload={id:S.id,name:S.name.trim(),phone:(S.phone||"").trim(),profile:(S.profile||"").trim(),firstDate:(S.firstDate||"").trim(),
         mcq:S.mcq.map((x,i)=>x===null?"":L[x]+". "+MCQ[i].o[x]),written:S.written.map(w=>w.trim()),
         availability:pickedList(),slots:S.slots,notes:S.notes||"",website:S.website||""};
       try{

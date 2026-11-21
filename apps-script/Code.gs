@@ -26,7 +26,7 @@ const HEADERS = [
   'Q5 Escape room role', 'Q6 When we disagree', 'Q7 Spontaneous plans', 'Q8 Phone',
   'Q9 Showing interest', 'Q10 Sense of humour',
   'Q11 48-hour test', 'Q12 Ridiculous opinion', 'Q13 Idiot story', 'Q14 Learnt about self', 'Q15 Worth the jeans',
-  'Availability', 'Timing notes', 'My notes', 'Slots (raw)'
+  'Availability', 'Timing notes', 'My notes', 'Slots (raw)', 'Profile link'
 ];
 const COL = { status: 3, notes: 24 }; // 1-based column numbers
 
@@ -49,6 +49,9 @@ function sheet_() {
     sh.appendRow(HEADERS);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
+  }
+  if (sh.getRange(1, HEADERS.length).getValue() !== HEADERS[HEADERS.length - 1]) {
+    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
   }
   return sh;
 }
@@ -96,7 +99,7 @@ function doPost(e) {
       new Date(), id, 'New', clip_(d.name, 80), "'" + clip_(d.phone, 30), clip_(d.firstDate, 1500),
       ...mcq, ...written,
       (d.availability || []).map(x => clip_(x, 60)).join('\n'),
-      clip_(d.notes, 600), '', clip_(JSON.stringify(d.slots || {}), 4000)
+      clip_(d.notes, 600), '', clip_(JSON.stringify(d.slots || {}), 4000), clip_(d.profile, 400)
     ];
 
     const existing = findRow_(sh, id);
@@ -111,6 +114,7 @@ function doPost(e) {
           to: Session.getEffectiveUser().getEmail(),
           subject: 'New application: ' + clip_(d.name, 60),
           body: clip_(d.name, 80) + ' has applied.\n\nFirst date idea: ' + clip_(d.firstDate, 500) +
+                (d.profile ? '\n\nProfile: ' + clip_(d.profile, 400) : '') +
                 '\n\nAvailable: ' + (d.availability || []).join(', ') + '\n\nOpen your inbox page to read the rest.'
         });
       } catch (err) { /* email is a bonus; the row is already saved */ }
@@ -137,7 +141,7 @@ function doGet(e) {
       id: String(r[1]), status: String(r[2] || 'New'), name: String(r[3]), phone: String(r[4]),
       firstDate: String(r[5]), mcq: r.slice(6, 16).map(String), written: r.slice(16, 21).map(String),
       availability: String(r[21] || '').split('\n').filter(String), timing: String(r[22] || ''),
-      myNotes: String(r[23] || ''), slots: slots
+      myNotes: String(r[23] || ''), slots: slots, profile: String(r[25] || '')
     };
   });
   return out_({ ok: true, rows: rows });

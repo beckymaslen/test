@@ -249,6 +249,7 @@ function card(r){
     <details><summary>Read everything</summary>
       <div class="full">
         <div class="contact"><h5 style="width:100%">Phone</h5><a href="tel:${esc(r.phone.replace(/[^\d+]/g,""))}">${esc(r.phone)}</a><button class="ghost" type="button" data-copy="${esc(r.phone)}">Copy</button></div>
+        ${r.profile?`<div><h5>Dating profile</h5><p>${/^https?:\/\//i.test(r.profile)?`<a href="${esc(r.profile)}" target="_blank" rel="noopener noreferrer" style="color:var(--plum);font-weight:600">${esc(r.profile)}</a>`:esc(r.profile)}</p></div>`:""}
         <div><h5>Multiple choice</h5><div class="mcq">${r.mcq.map((a,i)=>`<div><b>${i+1}. ${esc(QS[i])}</b>${esc(a)}</div>`).join("")}</div></div>
         ${r.written.map((w,i)=>`<div><h5>${11+i}. ${esc(WQ[i])}</h5><p>${esc(w)}</p></div>`).join("")}
         <div><h5>Available</h5><p>${esc(r.availability.join(" · ")||"None picked")}${r.timing?"\nNotes: "+esc(r.timing):""}</p></div>
