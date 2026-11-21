@@ -1,4 +1,4 @@
-# Becky's Questionable Screening Process™
+# Becky's Husband Screening Process™
 
 - `index.html` – the questionnaire people fill in.
 - `inbox.html` – Becky's private inbox (needs the inbox key).

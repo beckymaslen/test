@@ -1,5 +1,5 @@
 /**
- * Becky's Questionable Screening Process™ — back office
+ * Becky's Husband Screening Process™ — back office
  * Lives inside your Google Sheet (Extensions → Apps Script).
  *
  * What it does
