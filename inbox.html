@@ -239,7 +239,7 @@ function card(r){
       <div class="meta"><span class="pill ${esc(st)}">${esc(st)}</span><span>${esc(ago(r.received))}</span></div></div>
     <p class="idea">${esc(r.firstDate)}</p>
     <div class="stats">
-      <span class="stat">Chaos score: ${chaos(r)}/10 option Ds</span>
+      <span class="stat">Chaos score: ${chaos(r)}/${r.mcq.filter(Boolean).length} option Ds</span>
       <span class="stat">${r.availability.length} slot${r.availability.length===1?"":"s"} free</span>
       <span class="stat">Disagreements: ${esc((r.mcq[5]||"").slice(3))}</span>
     </div>
@@ -250,8 +250,8 @@ function card(r){
       <div class="full">
         <div class="contact"><h5 style="width:100%">Phone</h5><a href="tel:${esc(r.phone.replace(/[^\d+]/g,""))}">${esc(r.phone)}</a><button class="ghost" type="button" data-copy="${esc(r.phone)}">Copy</button></div>
         ${r.profile?`<div><h5>Dating profile</h5><p>${/^https?:\/\//i.test(r.profile)?`<a href="${esc(r.profile)}" target="_blank" rel="noopener noreferrer" style="color:var(--plum);font-weight:600">${esc(r.profile)}</a>`:esc(r.profile)}</p></div>`:""}
-        <div><h5>Multiple choice</h5><div class="mcq">${r.mcq.map((a,i)=>`<div><b>${i+1}. ${esc(QS[i])}</b>${esc(a)}</div>`).join("")}</div></div>
-        ${r.written.map((w,i)=>`<div><h5>${11+i}. ${esc(WQ[i])}</h5><p>${esc(w)}</p></div>`).join("")}
+        <div><h5>Multiple choice</h5><div class="mcq">${r.mcq.map((a,i)=>a?`<div><b>${esc(QS[i])}</b>${esc(a)}</div>`:"").join("")}</div></div>
+        ${r.written.map((w,i)=>w?`<div><h5>${esc(WQ[i])}</h5><p>${esc(w)}</p></div>`:"").join("")}
         <div><h5>Available</h5><p>${esc(r.availability.join(" · ")||"None picked")}${r.timing?"\nNotes: "+esc(r.timing):""}</p></div>
         <div class="notes"><h5>My notes <span class="saved"></span></h5><textarea data-n="${esc(r.id)}" placeholder="Group chat verdict, red flags, green flags…">${esc(r.myNotes)}</textarea></div>
       </div>

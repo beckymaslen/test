@@ -394,7 +394,7 @@ textarea.short{min-height:96px}
       <span class="ln" aria-hidden="true"><span><em class="annoy" id="annoy">click?</em><button id="tm" type="button" aria-label="Trademark">™</button></span></span>
     </h1>
     <div class="hero-foot">
-      <p><b>15 questions.</b> 10 multiple-choice. 5 written answers. Absolutely no guarantee of a date.</p>
+      <p><b>10 questions</b> · 7 quick choices · 3 written answers. Absolutely no guarantee of a date.</p>
       <button class="badge magnet" data-apply data-hover type="button" aria-label="Begin the questioning">
         <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="circ" d="M50,50 m-40,0 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><text><textPath href="#circ" textLength="246" lengthAdjust="spacing">Begin the questioning ✶ Begin the questioning ✶</textPath></text></svg>
         <span class="core"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ebe1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
@@ -409,7 +409,7 @@ textarea.short{min-height:96px}
     <p class="big" id="storyText">I'm <em>Becky.</em> I'm sarcastic, have far too many hobbies, two kids, two dogs, a cat, and an impressive ability to turn something simple into an unnecessarily elaborate project. Hence, this website. 😆🙌</p>
     <div class="letter">
       <p>I've technically been on dating sites for two years, although I've only actually opened them a handful of times. I've been quite happily getting on with life, enjoying my hobbies, working hard and not being particularly bothered about being single. However, I've recently decided that if I ever intend to find my husband, I should probably make slightly more effort than occasionally remembering dating apps exist.</p>
-      <p>So, before I sacrifice a perfectly good evening of gaming, audiobooks or doing absolutely nothing, I'd like to establish whether you're worth leaving the house for. There are 15 questions, no guaranteed prizes, and a very real possibility that your answers will be discussed in the group chat before a final decision is made.</p>
+      <p>So, before I sacrifice a perfectly good evening of gaming, audiobooks or doing absolutely nothing, I'd like to establish whether you're worth leaving the house for. There are 10 questions, no guaranteed prizes, and a very real possibility that your answers will be discussed in the group chat before a final decision is made.</p>
     </div>
     <p class="luck">Good luck. You may need it. 😘</p>
     <p class="sign"><span class="star">✶</span> <span class="sig">Becky x</span></p>
@@ -454,9 +454,9 @@ textarea.short{min-height:96px}
       <p>What you're signing up for, in numbers.</p>
     </div>
     <div class="tiles">
-      <div class="tile" tabindex="0"><span class="n">15</span><div><p class="t"><b>Questions</b>In total. All mandatory.</p></div></div>
-      <div class="tile" tabindex="0"><span class="n">10</span><div><p class="t"><b>Multiple choice</b>The preliminary investigation.</p></div></div>
-      <div class="tile" tabindex="0"><span class="n">5</span><div><p class="t"><b>Written answers</b>200 characters minimum each.</p></div></div>
+      <div class="tile" tabindex="0"><span class="n">10</span><div><p class="t"><b>Questions</b>In total. All mandatory.</p></div></div>
+      <div class="tile" tabindex="0"><span class="n">7</span><div><p class="t"><b>Quick choices</b>The preliminary investigation.</p></div></div>
+      <div class="tile" tabindex="0"><span class="n">3</span><div><p class="t"><b>Written answers</b>A few honest sentences each.</p></div></div>
       <div class="tile" tabindex="0"><span class="n">0</span><div><p class="t"><b>Guarantees</b>Of a date. Or anything.</p></div></div>
     </div>
   </section>
@@ -501,7 +501,7 @@ textarea.short{min-height:96px}
     <p class="mono" style="color:var(--muted);margin:0 0 16px">07 · Submission window open</p>
     <h2 class="mega"><span class="ln"><span>Your</span></span><span class="ln"><span><em>move.</em></span></span></h2>
     <div class="cta-row">
-      <button class="pill magnet" data-apply data-hover type="button">Start the application <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button class="pill magnet" data-apply data-hover type="button">Let's see if we click <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </section>
 </main>
@@ -557,24 +557,23 @@ const EXHIBITS = [
 ];
 const MCQ = [
   {t:"What brings you to dating apps?", o:["Genuinely hoping to meet someone interesting.","My friends are tired of hearing me complain about being single.","Boredom, loneliness and a questionable amount of optimism.","I'm emotionally unavailable, but the algorithm doesn't need to know that."]},
-  {t:"How long have you been single?", o:["Long enough to have developed a personality outside a relationship.","1–9 months. I'm reasonably confident I've processed it.","It's complicated. Please don't ask follow-up questions.","Technically, that's still being negotiated."]},
   {t:"How would your friends describe you?", o:["Funny, loyal and a bit of an idiot.","The responsible one. Someone has to be.","A walking liability who somehow survives.","I don't know. They mainly communicate with me through insults."]},
   {t:"It's Saturday morning. What's the plan?", o:["Spontaneous adventure. Let's go somewhere.","Coffee, food, a wander and seeing where we end up.","Gaming, takeaway and pretending the outside world doesn't exist.","Recovering from Friday and reassessing my life choices."]},
   {t:"We're doing an escape room together. What role are you playing?", o:["Solving puzzles while questioning everyone else's intelligence.","Taking charge despite having absolutely no idea what's happening.","Finding obscure clues that everyone else missed.","Accidentally making things worse but providing excellent entertainment."]},
   {t:"We disagree about something. What happens?", o:["We discuss it like two adults.","I need some time to cool off, then we talk.","I deploy sarcasm and hope the issue resolves itself.","I disappear emotionally and reappear three business days later."]},
-  {t:"How do you feel about spontaneous plans?", o:["Give me 20 minutes. I'll find my passport.","Love them, assuming I haven't already committed to something.","I prefer a little warning. I'm spontaneous within scheduled hours.","Absolutely not. I need written notice and an itinerary."]},
-  {t:"What's your relationship with your phone?", o:["I can put it away and enjoy someone's company.","I use it a fair bit, but I know when to put it down.","We're in a committed relationship. It's getting serious.","Sorry, I was scrolling. What was the question?"]},
   {t:"How do you show someone you're interested?", o:["Consistent effort, making plans and actually communicating.","Playful teasing, flirting and finding excuses to see them.","Sending them things that remind me of them.","Occasionally liking their Instagram story and hoping they take the hint."]},
   {t:"How would you describe your sense of humour?", o:["Dry, sarcastic and occasionally inappropriate.","Dark enough to warrant a brief background check.","Silly, ridiculous and frequently at my own expense.","I'm convinced I'm hilarious. Independent verification is unavailable."]}
 ];
 const WRITTEN = [
   {t:"The hypothetical 48-hour test", p:["We've got an entire weekend together. No children, no work, no responsibilities and a reasonable budget.","What are we doing from Friday evening to Sunday night?","I want the actual plan. Where are we going? What are we eating? Are we doing something exciting or spending Sunday questioning our Saturday decisions?","<q>“Whatever you want to do” is not a plan. It's an administrative burden."]},
-  {t:"Defend your most ridiculous opinion", p:["Tell me something you believe that other people find completely unreasonable.","It could be a controversial food opinion, an irrational ick, a petty hill you're willing to die on or something that sends your friends into an argument every time you mention it.","Explain your reasoning and convince me you're right.","<q>I'm not necessarily looking for a sensible answer. I'm looking for a convincing argument from someone who might be completely wrong."]},
   {t:"Tell me about your family situation. 🐾", p:["Do you have children, pets or both? If so, tell me about them! If not, how do you feel about dating someone with two kids, two dogs and a cat?","<q>There's plenty of love in this household. Occasionally some peace and quiet, but I wouldn't promise it. 😆"]},
   {t:"What have you actually learnt about yourself from dating or relationships?", p:["Not what your ex did wrong. Not why modern dating is terrible. Not a detailed account of how everyone you've ever met was apparently the problem.","I'm interested in what you've discovered about yourself.","<q>How do you handle disagreements? What do you need from someone? Is there anything you used to do that you've realised wasn't particularly helpful?"]},
-  {t:"Why are you worth putting jeans on for?", p:["I have a comfortable house, excellent snacks, video games, a collection of unread books, two dogs and the ability to entertain myself without assistance.","Meeting you involves getting dressed, doing my hair, leaving the house and potentially making small talk 🥴","So, what makes spending time with you worth the effort?","You can be funny, sincere, ridiculous or unexpectedly charming. Ideally some combination.","<q>Please don't tell me you're “a nice guy”. That's generally considered the bare minimum."]}
 ];
-const MIN = 200, L = "ABCD", SLOTS = ["Daytime","Evening"];
+/* Where each answer lands in the Google Sheet (original column positions, so the Sheet layout never changes) */
+const MCQ_COL=[0,2,3,4,5,8,9], WRITTEN_COL=[0,2,3];
+const NM=MCQ.length, NW=WRITTEN.length, NQ=NM+NW;
+const S_RULES=NM+1, S_W0=NM+2, S_DIARY=NM+NW+2, S_REVIEW=S_DIARY+1, S_DONE=S_REVIEW+1;
+const MIN = 50, L = "ABCD", SLOTS = ["Daytime","Evening"];
 const LINKEDIN = ["passionate","journey","synergy","growth mindset","thrive","leverage","value-add","driven individual","self-starter","excited to announce","humbled","circle back","go-getter","proactive","stakeholder"];
 
 /* ---------- toast ---------- */
@@ -780,22 +779,23 @@ function curtain(text, mid){
 /* Where applications are saved: your Google Apps Script web app URL (ends in /exec). Leave empty to use copy-and-send instead. */
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbzJRGMBPIp_fGnQ2DSZSiwbuOkbY5BrLLLvwJPubkgwN1N0ZQrG2U2YZiuqBAgZiGXk_w/exec";
 let step=1, SAVED=false, SAVE_ERR="";
-let S={mcq:Array(10).fill(null),written:Array(5).fill(""),name:"",phone:"",profile:"",firstDate:"",reply:"",slots:{},notes:""};
-try{ const d=JSON.parse(localStorage.getItem("aygtam-draft")||"null"); if(d&&d.mcq) S=Object.assign(S,d); }catch(e){}
+let S={mcq:Array(NM).fill(null),written:Array(NW).fill(""),name:"",phone:"",profile:"",firstDate:"",reply:"",slots:{},notes:""};
+try{ const d=JSON.parse(localStorage.getItem("aygtam-draft")||"null"); if(d&&d.mcq&&d.v===2) S=Object.assign(S,d); }catch(e){}
+S.v=2;
 const newId=()=>{ try{ return crypto.randomUUID(); }catch(e){ return Date.now().toString(36)+Math.random().toString(36).slice(2,10); } };
 if(!S.id) S.id=newId();
 const save=()=>{ try{localStorage.setItem("aygtam-draft",JSON.stringify(S));}catch(e){} };
 let opener=null;
 
 function firstIncomplete(){
-  for(let i=0;i<10;i++) if(S.mcq[i]===null) return i+1;
-  for(let i=0;i<5;i++) if(S.written[i].trim().length<MIN) return i+12;
-  return 17;
+  for(let i=0;i<NM;i++) if(S.mcq[i]===null) return i+1;
+  for(let i=0;i<NW;i++) if(S.written[i].trim().length<MIN) return i+S_W0;
+  return S_DIARY;
 }
 $("#clearAns").addEventListener("click",()=>{ $("#clearConfirm").hidden=false; $("#clearAns").hidden=true; $("#ccNo").focus(); });
 $("#ccNo").addEventListener("click",()=>{ $("#clearConfirm").hidden=true; $("#clearAns").hidden=false; $("#clearAns").focus(); });
 $("#ccYes").addEventListener("click",()=>{
-  S={mcq:Array(10).fill(null),written:Array(5).fill(""),name:"",phone:"",profile:"",firstDate:"",slots:{},notes:"",id:newId()};
+  S={mcq:Array(NM).fill(null),written:Array(NW).fill(""),name:"",phone:"",profile:"",firstDate:"",slots:{},notes:"",id:newId()};
   try{ localStorage.removeItem("aygtam-draft"); }catch(e){}
   SAVED=false; $("#clearConfirm").hidden=true; $("#clearAns").hidden=false;
   step=1; render(-1);
@@ -828,14 +828,14 @@ const pickedList=()=>days().filter(d=>freeOf(keyOf(d)).length).map(d=>fmtDay(d)+
 
 // steps: 1-10 mcq, 11 rules, 12-16 written, 17 diary, 18 review, 19 done
 function progress(){
-  let n = step<=10?step: step===11?10: step<=16?step-1: 15;
-  $("#barFill").style.width=(step>=19?100:(n/15)*92+(step>=17?4:0)+(step>=18?4:0))+"%";
-  $("#count").textContent = step===11?"Part 2": step===17?"Diary": step===18?"Review": step===19?"Filed":"Q"+n+"/15";
+  let n = step<=NM?step: step===S_RULES?NM: step<S_DIARY?step-1: NQ;
+  $("#barFill").style.width=(step>=S_DONE?100:(n/NQ)*92+(step>=S_DIARY?4:0)+(step>=S_REVIEW?4:0))+"%";
+  $("#count").textContent = step===S_RULES?"Part 2": step===S_DIARY?"Diary": step===S_REVIEW?"Review": step===S_DONE?"Done":"Q"+n+"/"+NQ;
 }
 function render(dir){
   progress();
   const el=$("#stage");
-  const html = step<=10?mcq(step-1): step===11?rulesStep(): step<=16?written(step-12): step===17?diary(): step===18?review(): done();
+  const html = step<=NM?mcq(step-1): step===S_RULES?rulesStep(): step<S_DIARY?written(step-S_W0): step===S_DIARY?diary(): step===S_REVIEW?review(): done();
   const swap=()=>{
     el.innerHTML=html; bind(); $("#app").scrollTop=0;
     const f=el.querySelector("[data-autofocus]"); if(f) f.focus({preventScroll:true});
@@ -847,11 +847,11 @@ function render(dir){
     }});
   } else { swap(); if(G && !reduce) G.from(el.querySelectorAll(".qh, .opt"),{y:20,opacity:0,duration:.5,stagger:.05,ease:"power3.out"}); }
 }
-function go(n){ const d=n>step?1:-1; step=Math.max(1,Math.min(19,n)); render(d); }
+function go(n){ const d=n>step?1:-1; step=Math.max(1,Math.min(S_DONE,n)); render(d); }
 
 function mcq(i){
   const q=MCQ[i];
-  return `<p class="eyebrow">Part 1 · The preliminary investigation · ${i+1} of 10</p>
+  return `<p class="eyebrow">Part 1 · The preliminary investigation · ${i+1} of ${NM}</p>
   <h2 class="qh" id="qh">${esc(q.t)}</h2>
   <div class="opts" role="radiogroup" aria-labelledby="qh">
     ${q.o.map((o,j)=>`<button class="opt" role="radio" aria-checked="${S.mcq[i]===j}" data-pick="${j}" ${(S.mcq[i]===j||(S.mcq[i]===null&&j===0))?"data-autofocus":""}><span class="k">${L[j]}</span><span>${esc(o)}</span></button>`).join("")}
@@ -865,7 +865,7 @@ function mcq(i){
 function rulesStep(){
   return `<p class="eyebrow">Part 2 · The written examination</p>
   <h2 class="qh">Five written answers. Your own words, please.</h2>
-  <p class="instr">Minimum 200 characters per answer. AI is not applying for a date (I am well aware this is a Claude made website… 🥴 but I copywrote all the questions)</p>
+  <p class="instr">A few honest sentences per answer is plenty. AI is not applying for a date (I am well aware this is a Claude made website… 🥴 but I copywrote all the questions)</p>
   <ul class="rlist">
     <li><span>You may use spellcheck. You may consult a dictionary.</span><span class="mono">Permitted</span></li>
     <li><span>You may even phone a friend, although that would be quite embarrassing.</span><span class="mono">Permitted</span></li>
@@ -873,21 +873,21 @@ function rulesStep(){
     <li><span>You may not ask AI to manufacture a personality on your behalf.</span><span class="mono" style="color:var(--rose)">Forbidden</span></li>
     <li><span>If your answers sound like a LinkedIn motivational post, your application will be treated with appropriate suspicion.</span><span class="mono" style="color:var(--rose)">Noted</span></li>
   </ul>
-  <div class="anav"><button class="btn ghost" data-go="10">Back</button><button class="btn" data-go="12" data-autofocus>I understand the terms</button></div>`;
+  <div class="anav"><button class="btn ghost" data-go="${NM}">Back</button><button class="btn" data-go="${S_W0}" data-autofocus>I understand the terms</button></div>`;
 }
 const promptHTML=w=>`<div class="prompt">${w.p.map(x=>x.startsWith("<q>")?`<p class="q">${esc(x.slice(3))}</p>`:`<p>${esc(x)}</p>`).join("")}</div>`;
 function written(i){
   const w=WRITTEN[i];
-  return `<p class="eyebrow">Part 2 · Question ${11+i} of 15</p>
+  return `<p class="eyebrow">Part 2 · Question ${NM+1+i} of ${NQ}</p>
   <h2 class="qh">${esc(w.t)}</h2>
-  ${i===4?`<div class="q15">${promptHTML(w)}<img src="photos/jeans.jpg" alt="Mirror selfie in jeans"></div>`:promptHTML(w)}
+  ${promptHTML(w)}
   <div class="field">
     <label class="lbl" for="ans">Your answer</label>
-    <textarea id="ans" data-autofocus placeholder="Start typing. Two hundred characters is a couple of honest sentences.">${esc(S.written[i])}</textarea>
+    <textarea id="ans" data-autofocus placeholder="Start typing. A few honest sentences is plenty.">${esc(S.written[i])}</textarea>
     <div class="meter" id="meter"><div class="track"><div class="fill" id="fill"></div></div><span class="num" id="num"></span></div>
     <div class="quip" id="quip" role="status"></div>
   </div>
-  <div class="anav"><button class="btn ghost" data-go="${step-1}">Back</button><button class="btn" data-go="${step+1}" id="next">${i===4?"On to the diary":"Next"}</button></div>`;
+  <div class="anav"><button class="btn ghost" data-go="${step-1}">Back</button><button class="btn" data-go="${step+1}" id="next">${i===NW-1?"On to the diary":"Next"}</button></div>`;
 }
 function diary(){
   const ds=days();
@@ -907,7 +907,7 @@ function diary(){
   <div class="field"><label class="lbl" for="nt">Anything else about timing? (optional)</label><input type="text" id="nt" value="${esc(S.notes)}" placeholder="e.g. Free after 6 on weekdays, away the 28th"></div>
   <p class="need" id="need" role="alert" hidden></p>
   <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true"><label>Leave this empty<input type="text" id="website" tabindex="-1" autocomplete="off"></label></div>
-  <div class="anav"><button class="btn ghost" data-go="16">Back</button><button class="btn" id="next">Review my application</button></div>`;
+  <div class="anav"><button class="btn ghost" data-go="${S_DIARY-1}">Back</button><button class="btn" id="next">Review my application</button></div>`;
 }
 function review(){
   const p=pickedList();
@@ -915,22 +915,20 @@ function review(){
   return `<p class="eyebrow">Final check</p><h2 class="qh">Review your application</h2><p>Last chance to delete the bit about your ex.</p>
   <div class="review">
     ${MCQ.map((q,i)=>item((i+1)+". "+esc(q.t),S.mcq[i]===null?"<em>Not answered</em>":L[S.mcq[i]]+". "+esc(q.o[S.mcq[i]]),i+1)).join("")}
-    ${WRITTEN.map((w,i)=>item((11+i)+". "+esc(w.t),esc(S.written[i])+` <span class="lab">(${S.written[i].trim().length} characters)</span>`,12+i,true)).join("")}
-    ${item("Applicant",esc(S.name)+" · "+esc(S.phone||"")+(S.reply?" · "+esc(S.reply):""),17)}
-    ${item("Availability",p.length?esc(p.join("; ")):"<em>None picked</em>",17)}
-    ${S.profile?item("Dating profile",esc(S.profile),17):""}
-    ${item("First date suggestion",esc(S.firstDate||""),17)}
-    ${S.notes?item("Timing notes",esc(S.notes),17):""}
+    ${WRITTEN.map((w,i)=>item((NM+1+i)+". "+esc(w.t),esc(S.written[i]),S_W0+i,true)).join("")}
+    ${item("Applicant",esc(S.name)+" · "+esc(S.phone||"")+(S.reply?" · "+esc(S.reply):""),S_DIARY)}
+    ${item("Availability",p.length?esc(p.join("; ")):"<em>None picked</em>",S_DIARY)}
+    ${S.profile?item("Dating profile",esc(S.profile),S_DIARY):""}
+    ${item("First date suggestion",esc(S.firstDate||""),S_DIARY)}
+    ${S.notes?item("Timing notes",esc(S.notes),S_DIARY):""}
   </div>
-  <div class="anav"><button class="btn ghost" data-go="17">Back</button><button class="btn" id="submit" data-autofocus>Submit application</button></div>`;
+  <div class="anav"><button class="btn ghost" data-go="${S_DIARY}">Back</button><button class="btn" id="submit" data-autofocus>Submit application</button></div>`;
 }
 function done(){
   const first=(S.name||"").trim().split(/\s+/)[0]||"";
-  return `<p class="eyebrow">Submission confirmation</p><div class="stamp">${SAVED?"Received · Under review":"Not sent yet"}</div>
-  <h2 class="qh">Congratulations${first?", "+esc(first):""}.</h2>
-  <p>You've reached the end of a questionnaire that almost certainly required more effort than setting up your own dating profile.</p>
-  <p>Your application will be reviewed at my earliest convenience. Successful candidates may receive further questions, light sarcasm or an invitation to leave the house.</p>
-  <p>Thank you for your interest in potentially becoming someone I voluntarily spend time with.</p>
+  return `<div class="stamp">${SAVED?"Received ✶ Thank you":"Not sent yet"}</div>
+  <h2 class="qh">And that's a wrap!</h2>
+  <p>Thanks for telling me a little about yourself${first?", "+esc(first):""}. If we seem like a good match, perhaps we'll find out whether the chemistry works away from a screen.</p>
   ${SAVED
     ? `<div class="notice"><b>Delivered.</b> Your application is safely in the pile. There's nothing else to do, so feel free to go back to whatever you were doing before this.</div>
        <details class="keep field"><summary>Want a copy for your records?</summary>
@@ -950,7 +948,7 @@ function summaryText(){
   l.push("",line,"PART 1 · THE PRELIMINARY INVESTIGATION","");
   MCQ.forEach((q,i)=>l.push((i+1)+". "+q.t,"   "+(S.mcq[i]===null?"—":L[S.mcq[i]]+". "+q.o[S.mcq[i]]),""));
   l.push(line,"PART 2 · THE WRITTEN EXAMINATION","");
-  WRITTEN.forEach((w,i)=>l.push((11+i)+". "+w.t,S.written[i].trim(),""));
+  WRITTEN.forEach((w,i)=>l.push((NM+1+i)+". "+w.t,S.written[i].trim(),""));
   return l.join("\n").trim();
 }
 function quipFor(t){
@@ -972,12 +970,12 @@ function bind(){
   $$("#stage [data-pick]").forEach(b=>b.addEventListener("click",()=>pick(+b.dataset.pick)));
   const ta=$("#ans");
   if(ta){
-    const i=step-12;
+    const i=step-S_W0;
     const upd=()=>{
       S.written[i]=ta.value; save();
       const n=ta.value.trim().length;
       $("#fill").style.width=Math.min(100,n/MIN*100)+"%"; $("#meter").classList.toggle("ok",n>=MIN);
-      $("#num").textContent=n>=MIN? n+" characters ✓" : n+" / "+MIN+" ("+(MIN-n)+" to go)";
+      $("#num").textContent=n>=MIN? "Looks good ✓" : "Just a little more";
       $("#next").disabled=n<MIN;
       const qe=$("#quip"); if(!qe.dataset.paste){ const q=quipFor(ta.value); qe.textContent=q; qe.classList.toggle("show",!!q); }
     };
@@ -985,7 +983,7 @@ function bind(){
     ta.addEventListener("paste",e=>{ const t=(e.clipboardData||window.clipboardData)?.getData("text")||""; if(t.length>250){ const qe=$("#quip"); qe.dataset.paste="1"; qe.textContent="That was a lot of words to arrive all at once. I'm not saying anything. I'm just noticing."; qe.classList.add("show"); } });
     upd();
   }
-  if(step===17){
+  if(step===S_DIARY){
     const phoneOk=()=>(S.phone||"").replace(/\D/g,"").length>=10;
     let missing=[];
     const chk=()=>{ const p=pickedList(); const miss=[]; const where=[]; if(!S.name.trim()){miss.push("your name");where.push("#nm");} if(!phoneOk()){miss.push("a phone number");where.push("#ph");} const fd=(S.firstDate||"").trim(); if(fd.length<15){miss.push("a first date idea");where.push("#fd");} else if(/^(anything|whatever|up to you|you decide|dunno|idk|not sure|surprise me)\b/i.test(fd)||/whatever you (want|like|fancy)|up to you|you (choose|decide|pick)/i.test(fd)) {miss.push("a first date idea that isn't you making me decide");where.push("#fd");} if(!p.length){miss.push("at least one slot on the calendar");where.push(".slot");}
@@ -993,7 +991,7 @@ function bind(){
       missing=where; const nd=$("#need"); if(!nd.hidden){ if(miss.length) nd.textContent="Still needed: "+miss.join(", ")+"."; else nd.hidden=true; } };
     $("#next").addEventListener("click",()=>{
       chk(); const nd=$("#need");
-      if(!missing.length){ go(18); return; }
+      if(!missing.length){ go(S_REVIEW); return; }
       const msg=[]; if(missing.includes("#nm")) msg.push("your name"); if(missing.includes("#ph")) msg.push("a phone number (at least 10 digits)");
       if(missing.includes("#fd")) msg.push((S.firstDate||"").trim().length<15?"a first date idea (a sentence, please)":"a first date idea that isn't you making me decide");
       if(missing.includes(".slot")) msg.push("at least one slot on the calendar");
@@ -1018,12 +1016,12 @@ function bind(){
     }));
     chk();
   }
-  if(step===18) $("#submit").addEventListener("click",async e=>{
+  if(step===S_REVIEW) $("#submit").addEventListener("click",async e=>{
     const btn=e.currentTarget; btn.disabled=true; btn.textContent="Filing…";
     SAVED=false;
     if(ENDPOINT){
       const payload={id:S.id,name:S.name.trim(),phone:(S.phone||"").trim(),profile:(S.profile||"").trim(),firstDate:(S.firstDate||"").trim(),
-        mcq:S.mcq.map((x,i)=>x===null?"":L[x]+". "+MCQ[i].o[x]),written:S.written.map(w=>w.trim()),
+        mcq:(()=>{const a=Array(10).fill(""); S.mcq.forEach((x,i)=>{ a[MCQ_COL[i]]=x===null?"":L[x]+". "+MCQ[i].o[x]; }); return a;})(),written:(()=>{const a=Array(5).fill(""); S.written.forEach((w,i)=>{ a[WRITTEN_COL[i]]=w.trim(); }); return a;})(),
         availability:pickedList(),slots:S.slots,notes:S.notes||"",website:S.website||""};
       try{
         const ctl=new AbortController(); const t=setTimeout(()=>ctl.abort(),30000);
@@ -1032,9 +1030,9 @@ function bind(){
         SAVED=!!(j&&j.ok); if(j&&!j.ok) SAVE_ERR="Sheet said: "+(j.error||"no reason");
       }catch(err){ SAVED=false; SAVE_ERR=(err&&err.name==="AbortError")?"Timed out after 30 seconds":"Couldn't reach Google ("+(err&&err.message||err)+")"; }
     } else { SAVE_ERR="Not connected (no Sheet link on this copy of the page)"; }
-    curtain(SAVED?"Filed. Under review.":"Filing your paperwork",()=>{step=19;render(0);});
+    curtain(SAVED?"Filed. Under review.":"Filing your paperwork",()=>{step=S_DONE;render(0);});
   });
-  if(step===19){
+  if(step===S_DONE){
     if(G&&!reduce) G.from(".stamp",{scale:2.2,opacity:0,rotate:-20,duration:.6,ease:"back.out(2)",delay:.7});
     $("#copy").addEventListener("click",async()=>{
       const out=$("#out");
@@ -1044,7 +1042,7 @@ function bind(){
   }
 }
 addEventListener("keydown",e=>{
-  if($("#app").hidden || step>10 || e.metaKey||e.ctrlKey||e.altKey) return;
+  if($("#app").hidden || step>NM || e.metaKey||e.ctrlKey||e.altKey) return;
   if(e.target.closest("input,textarea")) return;
   const i="ABCD".indexOf(e.key.toUpperCase()), n="1234".indexOf(e.key);
   if(i>-1){e.preventDefault();pick(i);} else if(n>-1){e.preventDefault();pick(n);}
