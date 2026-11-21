@@ -326,6 +326,8 @@ textarea.short{min-height:96px}
 .edit{background:none;border:0;color:var(--rose);text-decoration:underline;cursor:pointer;font-size:13px;padding:2px}
 .stamp{display:inline-block;font:500 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--rose);border:3px double var(--rose);border-radius:8px;padding:8px 14px;transform:rotate(-6deg);margin:4px 0 22px}
 .notice{margin-top:18px;padding:14px 16px;border-radius:12px;background:var(--plum);border:1px solid var(--gold);color:var(--cream);font-size:15px}
+.keep summary{cursor:pointer;font:500 12px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--rose);margin-top:8px}
+.keep[open] summary{margin-bottom:14px}
 .copybox textarea{min-height:170px;font:13px/1.55 var(--mono)}
 
 @media (prefers-reduced-motion:reduce){
@@ -824,25 +826,33 @@ function review(){
   <div class="anav"><button class="btn ghost" data-go="17">Back</button><button class="btn" id="submit" data-autofocus>Submit application</button></div>`;
 }
 function done(){
-  return `<p class="eyebrow">Submission confirmation</p><div class="stamp">Received · Under review</div>
-  <h2 class="qh">Congratulations.</h2>
+  const first=(S.name||"").trim().split(/\s+/)[0]||"";
+  return `<p class="eyebrow">Submission confirmation</p><div class="stamp">${SAVED?"Received · Under review":"Not sent yet"}</div>
+  <h2 class="qh">Congratulations${first?", "+esc(first):""}.</h2>
   <p>You've reached the end of a questionnaire that almost certainly required more effort than setting up your own dating profile.</p>
   <p>Your application will be reviewed at my earliest convenience. Successful candidates may receive further questions, light sarcasm or an invitation to leave the house.</p>
   <p>Thank you for your interest in potentially becoming someone I voluntarily spend time with.</p>
   ${SAVED
-    ? `<div class="notice"><b>Delivered.</b> Your application is safely in the pile. If you'd like a copy for your own records (or as proof you survived it), it's below.</div>`
-    : `<div class="notice"><b>One last step: send it over.</b> Your application couldn't be filed automatically just now, so copy it below and send it to her as a message on the app where you matched.<br><small style="opacity:.75">Technical note: ${esc(SAVE_ERR)}</small></div>`}
-  <div class="copybox field"><label class="lbl" for="out">Your application</label><textarea id="out" readonly>${esc(summaryText())}</textarea>
-  <div class="anav"><span class="hint" id="copied"></span><button class="btn" id="copy">Copy my application</button></div></div>`;
+    ? `<div class="notice"><b>Delivered.</b> Your application is safely in the pile. There's nothing else to do, so feel free to go back to whatever you were doing before this.</div>
+       <details class="keep field"><summary>Want a copy for your records?</summary>
+         <div class="copybox"><label class="lbl" for="out">Your application</label><textarea id="out" readonly>${esc(summaryText())}</textarea>
+         <div class="anav"><span class="hint" id="copied"></span><button class="btn ghost" id="copy">Copy my application</button></div></div></details>`
+    : `<div class="notice"><b>One last step: send it over.</b> Your application couldn't be filed automatically just now, so copy it below and send it to her as a message on the app where you matched.<br><small style="opacity:.75">Technical note: ${esc(SAVE_ERR)}</small></div>
+       <div class="copybox field"><label class="lbl" for="out">Your application</label><textarea id="out" readonly>${esc(summaryText())}</textarea>
+       <div class="anav"><span class="hint" id="copied"></span><button class="btn" id="copy">Copy my application</button></div></div>`}`;
 }
 function summaryText(){
-  const l=["ARE YOU GOING TO ANNOY ME?™ — APPLICATION","From: "+S.name,"Phone: "+(S.phone||"")+(S.profile?"\nProfile: "+S.profile:"")+(S.reply?"\nMatched on: "+S.reply:""),"","PART 1"];
-  MCQ.forEach((q,i)=>l.push((i+1)+". "+q.t+"\n   "+(S.mcq[i]===null?"—":L[S.mcq[i]]+". "+q.o[S.mcq[i]])));
-  l.push("","PART 2");
-  WRITTEN.forEach((w,i)=>{l.push((11+i)+". "+w.t.toUpperCase(),S.written[i],"");});
-  l.push("FIRST DATE SUGGESTION:",S.firstDate||"","");
-  l.push("AVAILABLE (no guarantees, understood):"); pickedList().forEach(x=>l.push("• "+x)); if(S.notes) l.push("Notes: "+S.notes);
-  return l.join("\n");
+  const line="────────────────";
+  const l=["BECKY'S HUSBAND SCREENING PROCESS™","Application from "+S.name.trim(),line,
+    "Phone: "+(S.phone||"").trim()];
+  if(S.profile) l.push("Dating profile: "+S.profile.trim());
+  l.push("","FIRST DATE SUGGESTION",(S.firstDate||"").trim(),"","AVAILABILITY");
+  pickedList().forEach(x=>l.push("• "+x)); if(S.notes) l.push("Note: "+S.notes.trim());
+  l.push("",line,"PART 1 · THE PRELIMINARY INVESTIGATION","");
+  MCQ.forEach((q,i)=>l.push((i+1)+". "+q.t,"   "+(S.mcq[i]===null?"—":L[S.mcq[i]]+". "+q.o[S.mcq[i]]),""));
+  l.push(line,"PART 2 · THE WRITTEN EXAMINATION","");
+  WRITTEN.forEach((w,i)=>l.push((11+i)+". "+w.t,S.written[i].trim(),""));
+  return l.join("\n").trim();
 }
 function quipFor(t){
   const low=t.toLowerCase(), hits=LINKEDIN.filter(w=>low.includes(w));
