@@ -158,7 +158,7 @@ section{position:relative;z-index:2}
 }
 .card{position:relative;margin:0;border-radius:14px 14px 160px 160px / 14px 14px 22px 22px;overflow:hidden;background:var(--plum);transform-style:preserve-3d;will-change:transform;transition:box-shadow .3s ease;cursor:default}
 .card video{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--plum)}
-.htrack .card.gcard{width:calc(min(76vw,340px) * .75);cursor:zoom-in}
+.htrack .card.gcard{width:calc(min(76vw,340px) * .75)}
 @media (min-width:821px){.htrack .card.gcard{width:calc(clamp(240px,min(24vw,36vh),380px) * .75)}}
 .card.gcard img{aspect-ratio:9/16;object-fit:cover;object-position:top}
 .lightbox{position:fixed;inset:0;z-index:160;background:rgba(46,34,48,.92);display:grid;place-items:center;padding:56px 12px 16px}
@@ -554,22 +554,12 @@ const ORDER = ["a","b","v:2","g1","c","d","v:6","g2","e","f","g","v:10","g3","h"
 const ROLL = ORDER.map(k=> k.startsWith("v:") ? {v:VIDEOS[+k.slice(2)]} : GRIDS[k] ? {g:GRIDS[k]} : {p:P[k]});
 const LET="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 $("#htrack").innerHTML = ROLL.map((it,i)=> it.g
-  ? `<figure class="card gcard" data-hover data-grid="${it.g[0]}" tabindex="0" role="button" aria-label="Open my Instagram grid, ${esc(it.g[1])}"><img src="grids/${it.g[0]}.jpg" alt="A grid of my Instagram photos; photos with my children and other people are covered" loading="lazy"><span class="vtag">Grid · tap to zoom</span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.g[1])}</figcaption></figure>`
+  ? `<figure class="card gcard" data-hover><img src="grids/${it.g[0]}.jpg" alt="A grid of my Instagram photos; my children\'s faces are blurred" loading="lazy"><span class="vtag">Grid</span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.g[1])}</figcaption></figure>`
   : it.v
   ? `<figure class="card vcard" data-tilt data-hover><video src="videos/${it.v[0]}.mp4" poster="videos/${it.v[0]}.jpg" muted loop playsinline preload="metadata" aria-label="${esc(it.v[2])}"></video><span class="vtag">Video</span><span class="glare"></span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.v[1])}</figcaption></figure>`
   : `<figure class="card" data-tilt data-hover><img src="photos/${it.p[0]}.jpg" alt="${esc(it.p[2])}" loading="${i<4?"eager":"lazy"}"><span class="glare"></span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.p[1])}</figcaption></figure>`).join("")
   + `<div class="endcard"><b>✶ Evidence closed</b><p>The jury is out.</p></div>`;
 $("#evSub").textContent = "Exhibits A to "+LET[ROLL.length-1]+". Submitted for your consideration. Keep scrolling to flick through.";
-// grid lightbox
-const lb=document.createElement("div"); lb.className="lightbox"; lb.hidden=true; lb.setAttribute("role","dialog"); lb.setAttribute("aria-modal","true"); lb.setAttribute("aria-label","Instagram grid");
-lb.innerHTML=`<button class="lbx" type="button" aria-label="Close">Close ✕</button><div class="lbin" data-lenis-prevent><img alt=""></div>`;
-document.body.appendChild(lb);
-let lbFrom=null;
-const openLB=el=>{ lbFrom=el; const im=lb.querySelector("img"); im.src="grids/"+el.dataset.grid+".jpg"; im.alt=el.querySelector("img").alt; lb.hidden=false; document.documentElement.style.overflow="hidden"; if(lenis) lenis.stop(); lb.querySelector(".lbx").focus(); };
-const closeLB=()=>{ lb.hidden=true; document.documentElement.style.overflow=""; if(lenis) lenis.start(); if(lbFrom) lbFrom.focus({preventScroll:true}); };
-document.querySelectorAll(".gcard").forEach(el=>{ el.addEventListener("click",()=>openLB(el)); el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openLB(el);} }); });
-lb.addEventListener("click",e=>{ if(e.target===lb||e.target.closest(".lbx")) closeLB(); });
-addEventListener("keydown",e=>{ if(e.key==="Escape"&&!lb.hidden) closeLB(); });
 // play videos only while on screen
 const vids=[...document.querySelectorAll(".vcard video")];
 if("IntersectionObserver" in window && !reduce){
