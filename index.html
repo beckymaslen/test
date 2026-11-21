@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Are You Going to Annoy Me?</title>
+<title>Shall We See If We Click?</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="A necessarily thorough assessment of whether a date is worth leaving the house for.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -388,10 +388,10 @@ textarea.short{min-height:96px}
     <div class="kicker">
       <p class="welcome-line">Welcome to Becky's Husband Screening Process™ 👋</p>
     </div>
-    <h1 class="mega" aria-label="Are you going to annoy me?">
-      <span class="ln" aria-hidden="true"><span>Are you</span></span>
-      <span class="ln" aria-hidden="true"><span>going to</span></span>
-      <span class="ln" aria-hidden="true"><span><em class="annoy" id="annoy">annoy</em> me?<button id="tm" type="button" aria-label="Trademark">™</button></span></span>
+    <h1 class="mega" aria-label="Shall we see if we click?">
+      <span class="ln" aria-hidden="true"><span>Shall we</span></span>
+      <span class="ln" aria-hidden="true"><span>see if we</span></span>
+      <span class="ln" aria-hidden="true"><span><em class="annoy" id="annoy">click?</em><button id="tm" type="button" aria-label="Trademark">™</button></span></span>
     </h1>
     <div class="hero-foot">
       <p><b>15 questions.</b> 10 multiple-choice. 5 written answers. Absolutely no guarantee of a date.</p>
@@ -734,8 +734,8 @@ if(fine && !reduce){
 /* ---------- easter eggs ---------- */
 let tmN=0; const tmLines=["Trademark pending.","Trademark application rejected.","Rejected again. Stop pressing it.","Fine. It's yours. Not legally."];
 $("#tm").addEventListener("click",()=>{ toast(tmLines[Math.min(tmN,tmLines.length-1)],"Legal department"); tmN++; });
-let anN=0; const anLines=["Rude.","Still annoying.","Okay, that's enough poking.","You're doing it again.","Noted on your file."];
-$("#annoy").addEventListener("click",e=>{ const a=e.currentTarget; a.classList.remove("shake"); void a.offsetWidth; a.classList.add("shake"); toast(anLines[Math.min(anN,anLines.length-1)],"Behaviour log"); anN++; });
+let anN=0; const anLines=["Click. Promising start.","Two clicks. Keen, I see.","Okay, we get it, you can click.","Still clicking. Bold strategy.","Noted on your file."];
+$("#annoy").addEventListener("click",e=>{ const a=e.currentTarget; a.classList.remove("shake"); void a.offsetWidth; a.classList.add("shake"); toast(anLines[Math.min(anN,anLines.length-1)],"Click counter"); anN++; });
 let buf="";
 addEventListener("keydown",e=>{
   if(e.target.closest("input,textarea") || !$("#app").hidden) return;
@@ -761,7 +761,7 @@ function dogs(){
 }
 let idle; const resetIdle=()=>{clearTimeout(idle); idle=setTimeout(()=>{ if($("#app").hidden && scrollY<200) toast("Still deciding? Same. About leaving the house.","Observed"); },15000);};
 ["pointermove","keydown","scroll"].forEach(ev=>addEventListener(ev,resetIdle,{passive:true})); resetIdle();
-try{ console.log("%cAre You Going to Annoy Me?™","color:#433044;font:italic 500 22px Cormorant Garamond,serif"); console.log("Inspecting the source to find the answers? Bold. There are no right answers. Type 'dogs' on the page."); }catch(e){}
+try{ console.log("%cShall We See If We Click?™","color:#433044;font:italic 500 22px Cormorant Garamond,serif"); console.log("Inspecting the source to find the answers? Bold. There are no right answers. Type 'dogs' on the page."); }catch(e){}
 
 /* ---------- curtain transition ---------- */
 function curtain(text, mid){
