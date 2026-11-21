@@ -155,6 +155,8 @@ section{position:relative;z-index:2}
   .col:nth-child(2){margin-top:48px}
 }
 .card{position:relative;margin:0;border-radius:14px 14px 160px 160px / 14px 14px 22px 22px;overflow:hidden;background:var(--plum);transform-style:preserve-3d;will-change:transform;transition:box-shadow .3s ease;cursor:default}
+.card video{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--plum)}
+.vtag{position:absolute;top:12px;left:12px;font:500 10px var(--ui);letter-spacing:.12em;text-transform:uppercase;background:rgba(67,48,68,.82);color:var(--gold-light);border:1px solid var(--gold);border-radius:99px;padding:4px 9px}
 .card img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1),filter .4s ease}
 .card:hover img{transform:scale(1.05)}
 .card figcaption{position:absolute;left:0;right:0;bottom:0;padding:44px 14px 12px;color:var(--cream);
@@ -167,7 +169,7 @@ section{position:relative;z-index:2}
 .terms{padding-block:clamp(70px,10vw,140px);border-bottom:1px solid var(--line)}
 .tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 @media (max-width:860px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.tile{position:relative;background:var(--paper);padding:clamp(18px,2.4vw,30px);min-height:clamp(190px,22vw,280px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate}
+.tile{position:relative;background:var(--paper);padding:clamp(18px,2.4vw,30px);min-height:0;display:flex;flex-direction:column;justify-content:flex-start;gap:clamp(16px,2vw,24px);overflow:hidden;isolation:isolate}
 .tile::before{content:"";position:absolute;inset:0;background:var(--plum);transform:translateY(101%);transition:transform .5s cubic-bezier(.7,0,.2,1);z-index:-1}
 .tile:hover::before,.tile:focus-within::before{transform:none}
 .tile:hover,.tile:focus-within{color:var(--cream)}
@@ -383,7 +385,7 @@ textarea.short{min-height:96px}
     <div class="shead">
       <span class="num">02</span>
       <h2>Supporting <em>evidence</em></h2>
-      <p>Exhibits A to K. Submitted for your consideration. Keep scrolling to flick through.</p>
+      <p id="evSub">Exhibits A to N. Submitted for your consideration. Keep scrolling to flick through.</p>
     </div>
     <div class="hwrap" id="hwrap" tabindex="0" aria-label="Photos, scroll sideways"><div class="htrack" id="htrack"></div></div>
     <div class="hfoot"><div class="hprog" aria-hidden="true"><span id="hprog"></span></div><span class="mono hhint">Scroll or swipe <span aria-hidden="true">→</span></span></div>
@@ -524,9 +526,24 @@ const words = ["Absolutely no guarantee of a date","Comfortable clothes","Two do
 const mqHTML = words.map(w=>`<span>${esc(w)}<i>✶</i></span>`).join("");
 $("#mq").innerHTML = mqHTML + mqHTML;
 
-$("#htrack").innerHTML = EXHIBITS.map((e,i)=>`
-  <figure class="card" data-tilt data-hover><img src="photos/${e[0]}.jpg" alt="${esc(e[2])}" loading="${i<4?"eager":"lazy"}"><span class="glare"></span><figcaption><b>Exhibit ${"ABCDEFGHIJK"[i]}</b>${esc(e[1])}</figcaption></figure>`).join("")
+const VIDEOS = {
+  2:["mermaid","Committed to the mermaid bit. Fully.","Video of Becky in a mermaid costume in the street"],
+  6:["garden","Gaming in the garden at golden hour. Peak me.","Video of the garden at sunset with a games console"],
+  10:["wine","Nothing prepares you for the real thing.","Video of Becky pouring a drink, then dancing"]
+};
+const ROLL=[]; EXHIBITS.forEach((e,i)=>{ if(VIDEOS[ROLL.length]) ROLL.push({v:VIDEOS[ROLL.length]}); ROLL.push({p:e}); });
+const LET="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+$("#htrack").innerHTML = ROLL.map((it,i)=> it.v
+  ? `<figure class="card vcard" data-tilt data-hover><video src="videos/${it.v[0]}.mp4" poster="videos/${it.v[0]}.jpg" muted loop playsinline preload="metadata" aria-label="${esc(it.v[2])}"></video><span class="vtag">Video</span><span class="glare"></span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.v[1])}</figcaption></figure>`
+  : `<figure class="card" data-tilt data-hover><img src="photos/${it.p[0]}.jpg" alt="${esc(it.p[2])}" loading="${i<4?"eager":"lazy"}"><span class="glare"></span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.p[1])}</figcaption></figure>`).join("")
   + `<div class="endcard"><b>✶ Evidence closed</b><p>The jury is out.</p></div>`;
+$("#evSub").textContent = "Exhibits A to "+LET[ROLL.length-1]+". Submitted for your consideration. Keep scrolling to flick through.";
+// play videos only while on screen
+const vids=[...document.querySelectorAll(".vcard video")];
+if("IntersectionObserver" in window && !reduce){
+  const io=new IntersectionObserver(es=>es.forEach(en=>{ const v=en.target; if(en.isIntersecting){ const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); } else v.pause(); }),{threshold:.35});
+  vids.forEach(v=>io.observe(v));
+} else vids.forEach(v=>v.setAttribute("controls",""));
 const hw=$("#hwrap"), hp=$("#hprog");
 hw.addEventListener("scroll",()=>{ if(!hw.classList.contains("pinned")){ const m=hw.scrollWidth-hw.clientWidth; hp.style.width=(m>0?hw.scrollLeft/m*100:0)+"%"; } },{passive:true});
 
