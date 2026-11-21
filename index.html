@@ -556,13 +556,13 @@ const EXHIBITS = [
   ["k","Another mirror. It's a pattern.","Mirror selfie in a skirt and boots"]
 ];
 const MCQ = [
-  {t:"What brings you to dating apps?", o:["Genuinely hoping to meet someone interesting.","My friends are tired of hearing me complain about being single.","Boredom, loneliness and a questionable amount of optimism.","I'm emotionally unavailable, but the algorithm doesn't need to know that."]},
-  {t:"How would your friends describe you?", o:["Funny, loyal and a bit of an idiot.","The responsible one. Someone has to be.","A walking liability who somehow survives.","I don't know. They mainly communicate with me through insults."]},
-  {t:"It's Saturday morning. What's the plan?", o:["Spontaneous adventure. Let's go somewhere.","Coffee, food, a wander and seeing where we end up.","Gaming, takeaway and pretending the outside world doesn't exist.","Recovering from Friday and reassessing my life choices."]},
-  {t:"We're doing an escape room together. What role are you playing?", o:["Solving puzzles while questioning everyone else's intelligence.","Taking charge despite having absolutely no idea what's happening.","Finding obscure clues that everyone else missed.","Accidentally making things worse but providing excellent entertainment."]},
-  {t:"We disagree about something. What happens?", o:["We discuss it like two adults.","I need some time to cool off, then we talk.","I deploy sarcasm and hope the issue resolves itself.","I disappear emotionally and reappear three business days later."]},
-  {t:"How do you show someone you're interested?", o:["Consistent effort, making plans and actually communicating.","Playful teasing, flirting and finding excuses to see them.","Sending them things that remind me of them.","Occasionally liking their Instagram story and hoping they take the hint."]},
-  {t:"How would you describe your sense of humour?", o:["Dry, sarcastic and occasionally inappropriate.","Dark enough to warrant a brief background check.","Silly, ridiculous and frequently at my own expense.","I'm convinced I'm hilarious. Independent verification is unavailable."]}
+  {t:"What brings you to dating apps?", o:["I'm genuinely hoping to find a relationship.", "I'm open to something serious with the right person.", "I'm meeting people and seeing what happens.", "I'm mostly here for something casual."]},
+  {t:"How would your friends describe you?", o:["Funny, loyal and a bit of an idiot.", "The responsible one. Someone has to be.", "A walking liability who somehow survives.", "A bit of everything, depending on the day."]},
+  {t:"It's Saturday morning. What's the plan?", o:["Spontaneous adventure. Let's go somewhere.", "Coffee, food, a wander and seeing where we end up.", "Gaming, takeaway and pretending the outside world doesn't exist.", "A quiet morning, a few jobs, then something fun later."]},
+  {t:"We're doing an escape room together. What role are you playing?", o:["Solving puzzles while questioning everyone else's intelligence.", "Taking charge despite having absolutely no idea what's happening.", "Finding obscure clues that everyone else missed.", "Accidentally making things worse but providing excellent entertainment."]},
+  {t:"We disagree about something. What happens?", o:["We talk it through and try to understand each other.", "I need a little space, then I'm happy to discuss it.", "I sometimes get defensive, but I try to put things right.", "I struggle with conflict and tend to avoid it."]},
+  {t:"How do you show someone you're interested?", o:["Consistent effort, making plans and communicating.", "Playful teasing, flirting and finding excuses to see them.", "Thoughtful gestures and remembering the little things.", "Physical affection, closeness and quality time."]},
+  {t:"How would you describe your sense of humour?", o:["Dry, sarcastic and occasionally inappropriate.", "Dark enough to warrant a brief background check.", "Silly, ridiculous and frequently at my own expense.", "A mixture. I'm convinced I'm hilarious, anyway."]}
 ];
 const WRITTEN = [
   {t:"The hypothetical 48-hour test", p:["We've got an entire weekend together. No children, no work, no responsibilities and a reasonable budget.","What are we doing from Friday evening to Sunday night?","I want the actual plan. Where are we going? What are we eating? Are we doing something exciting or spending Sunday questioning our Saturday decisions?","<q>“Whatever you want to do” is not a plan. It's an administrative burden."]},
@@ -780,8 +780,8 @@ function curtain(text, mid){
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbzJRGMBPIp_fGnQ2DSZSiwbuOkbY5BrLLLvwJPubkgwN1N0ZQrG2U2YZiuqBAgZiGXk_w/exec";
 let step=1, SAVED=false, SAVE_ERR="";
 let S={mcq:Array(NM).fill(null),written:Array(NW).fill(""),name:"",phone:"",profile:"",firstDate:"",reply:"",slots:{},notes:""};
-try{ const d=JSON.parse(localStorage.getItem("aygtam-draft")||"null"); if(d&&d.mcq&&d.v===2) S=Object.assign(S,d); }catch(e){}
-S.v=2;
+try{ const d=JSON.parse(localStorage.getItem("aygtam-draft")||"null"); if(d&&d.mcq&&d.v===3) S=Object.assign(S,d); }catch(e){}
+S.v=3;
 const newId=()=>{ try{ return crypto.randomUUID(); }catch(e){ return Date.now().toString(36)+Math.random().toString(36).slice(2,10); } };
 if(!S.id) S.id=newId();
 const save=()=>{ try{localStorage.setItem("aygtam-draft",JSON.stringify(S));}catch(e){} };

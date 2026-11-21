@@ -239,7 +239,7 @@ function card(r){
       <div class="meta"><span class="pill ${esc(st)}">${esc(st)}</span><span>${esc(ago(r.received))}</span></div></div>
     <p class="idea">${esc(r.firstDate)}</p>
     <div class="stats">
-      <span class="stat">Chaos score: ${chaos(r)}/${r.mcq.filter(Boolean).length} option Ds</span>
+      <span class="stat">Looking for: ${esc((r.mcq[0]||"").slice(3))}</span>
       <span class="stat">${r.availability.length} slot${r.availability.length===1?"":"s"} free</span>
       <span class="stat">Disagreements: ${esc((r.mcq[5]||"").slice(3))}</span>
     </div>
