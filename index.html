@@ -117,6 +117,8 @@ section{position:relative;z-index:2}
 .letter{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,4vw,64px);margin-top:clamp(36px,5vw,64px);padding-top:clamp(20px,3vw,32px);border-top:1px solid var(--line);max-width:1100px}
 .letter p{margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.6;max-width:52ch}
 @media (max-width:760px){.letter{grid-template-columns:1fr}}
+.luck{margin:clamp(28px,4vw,44px) 0 0;font-family:var(--display);font-style:italic;font-size:clamp(24px,2.4vw,32px);color:var(--plum)}
+.story .luck + .sign{margin-top:10px}
 .sig{font-family:var(--script);font-style:italic;font-size:34px;color:var(--plum);letter-spacing:0;text-transform:none}
 .welcome-line{margin:0;font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(22px,2.6vw,34px);line-height:1.15;color:var(--rose);max-width:28ch}
 .kicker{align-items:baseline}
@@ -156,6 +158,14 @@ section{position:relative;z-index:2}
 }
 .card{position:relative;margin:0;border-radius:14px 14px 160px 160px / 14px 14px 22px 22px;overflow:hidden;background:var(--plum);transform-style:preserve-3d;will-change:transform;transition:box-shadow .3s ease;cursor:default}
 .card video{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--plum)}
+.htrack .card.gcard{width:calc(min(76vw,340px) * .75);cursor:zoom-in}
+@media (min-width:821px){.htrack .card.gcard{width:calc(clamp(240px,min(24vw,36vh),380px) * .75)}}
+.card.gcard img{aspect-ratio:9/16;object-fit:cover;object-position:top}
+.lightbox{position:fixed;inset:0;z-index:160;background:rgba(46,34,48,.92);display:grid;place-items:center;padding:56px 12px 16px}
+.lightbox[hidden]{display:none}
+.lbin{max-height:100%;overflow:auto;-webkit-overflow-scrolling:touch;border-radius:12px}
+.lightbox img{display:block;width:min(92vw,620px);height:auto;border-radius:12px}
+.lbx{position:absolute;top:12px;right:12px;background:var(--cream);color:var(--plum);border:0;border-radius:99px;padding:9px 16px;font:600 14px var(--ui);cursor:pointer}
 .vtag{position:absolute;top:12px;left:12px;font:500 10px var(--ui);letter-spacing:.12em;text-transform:uppercase;background:rgba(67,48,68,.82);color:var(--gold-light);border:1px solid var(--gold);border-radius:99px;padding:4px 9px}
 .card img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1),filter .4s ease}
 .card:hover img{transform:scale(1.05)}
@@ -373,12 +383,13 @@ textarea.short{min-height:96px}
 
   <section class="story wrap" id="brief">
     <div class="shead"><span class="num">01</span><span class="mono" style="color:var(--muted)">Hello</span></div>
-    <p class="big" id="storyText">I'm <em>Becky.</em> I'm sarcastic, have far too many hobbies, two kids, two dogs, a cat and an impressive ability to turn something simple into an unnecessarily elaborate project. Hence, this website 😆🙌</p>
+    <p class="big" id="storyText">I'm <em>Becky.</em> I'm sarcastic, have far too many hobbies, two kids, two dogs, a cat, and an impressive ability to turn something simple into an unnecessarily elaborate project. Hence, this website. 😆🙌</p>
     <div class="letter">
-      <p>I've been on dating sites for 2 years and only opened them a couple of times, as I keep going on with life not being too bothered about being single. I've decided I should make more effort to find my husband.</p>
-      <p>So, before I sacrifice a perfectly good evening of gaming, audiobooks or doing absolutely nothing, I'd like to establish whether you're worth leaving the house for. There are 15 questions, no guaranteed prizes and a possibility your answers will be discussed in the group chat as part of the decision process. Good luck. 😘</p>
+      <p>I've technically been on dating sites for two years, although I've only actually opened them a handful of times. I've been quite happily getting on with life, enjoying my hobbies and not being particularly bothered about being single. However, I've recently decided that if I ever intend to find my husband, I should probably make slightly more effort than occasionally remembering dating apps exist.</p>
+      <p>So, before I sacrifice a perfectly good evening of gaming, audiobooks or doing absolutely nothing, I'd like to establish whether you're worth leaving the house for. There are 15 questions, no guaranteed prizes, and a very real possibility that your answers will be discussed in the group chat before a final decision is made.</p>
     </div>
-    <p class="sign"><span class="star">✶</span> <span class="sig">Becky</span></p>
+    <p class="luck">Good luck. You may need it. 😘</p>
+    <p class="sign"><span class="star">✶</span> <span class="sig">Becky x</span></p>
   </section>
 
   <section class="evidence wrap" id="evidence">
@@ -531,26 +542,33 @@ const VIDEOS = {
   6:["garden","Gaming in the garden at golden hour. Peak me.","Video of the garden at sunset with a games console"],
   10:["wine","Nothing prepares you for the real thing.","Video of Becky pouring a drink, then dancing"]
 };
-const MORE = {
-  l1:["l1","Holiday mode: fully activated.","Becky from behind on holiday, in a crochet beach cover-up"],
-  l2:["l2","Has stood on a paddleboard. Briefly.","Becky in a life jacket next to a paddleboard"],
-  l3:["l3","Professional lilo tester.","Becky's legs on a lilo on the sea"],
-  l4:["l4","Still bendy. Don't ask me to prove it.","Becky doing a backbend on a beach"],
-  l5:["l5","Will sit in a giant tree face for a photo.","Becky sitting in a giant carved tree face"],
-  l6:["l6","Takes Oktoberfest very seriously.","Becky in a dirndl holding a beer stein"],
-  l7:["l7","Paris, in cow print.","Becky sitting outside Notre-Dame"],
-  l8:["l8","Lift selfie. Obviously.","Becky taking a mirror selfie in a lift"],
-  l9:["l9","Museum enjoyer. Mostly for the gift shop.","Becky from behind walking into a museum"]
+const GRIDS = {
+  g1:["g1","Summer. I do actually go outside."],
+  g2:["g2","Autumn. Oktoberfest to Paris."],
+  g3:["g3","Mostly classified. Busy life, honestly."],
+  g4:["g4","Winter. More classified than not."]
 };
 const P = Object.fromEntries(EXHIBITS.map(e=>[e[0],e]));
-const ORDER = ["a","l1","b","v:2","l2","c","l6","d","v:6","l3","e","l5","f","l7","g","v:10","l4","h","l8","i","l9","j","k"];
-const ROLL = ORDER.map(k=> k.startsWith("v:") ? {v:VIDEOS[+k.slice(2)]} : {p:P[k]||MORE[k]});
+const ORDER = ["a","b","v:2","g1","c","d","v:6","g2","e","f","g","v:10","g3","h","i","j","g4","k"];
+const ROLL = ORDER.map(k=> k.startsWith("v:") ? {v:VIDEOS[+k.slice(2)]} : GRIDS[k] ? {g:GRIDS[k]} : {p:P[k]});
 const LET="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-$("#htrack").innerHTML = ROLL.map((it,i)=> it.v
+$("#htrack").innerHTML = ROLL.map((it,i)=> it.g
+  ? `<figure class="card gcard" data-hover data-grid="${it.g[0]}" tabindex="0" role="button" aria-label="Open my Instagram grid, ${esc(it.g[1])}"><img src="grids/${it.g[0]}.jpg" alt="A grid of my Instagram photos; photos with my children and other people are covered" loading="lazy"><span class="vtag">Grid · tap to zoom</span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.g[1])}</figcaption></figure>`
+  : it.v
   ? `<figure class="card vcard" data-tilt data-hover><video src="videos/${it.v[0]}.mp4" poster="videos/${it.v[0]}.jpg" muted loop playsinline preload="metadata" aria-label="${esc(it.v[2])}"></video><span class="vtag">Video</span><span class="glare"></span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.v[1])}</figcaption></figure>`
   : `<figure class="card" data-tilt data-hover><img src="photos/${it.p[0]}.jpg" alt="${esc(it.p[2])}" loading="${i<4?"eager":"lazy"}"><span class="glare"></span><figcaption><b>Exhibit ${LET[i]}</b>${esc(it.p[1])}</figcaption></figure>`).join("")
   + `<div class="endcard"><b>✶ Evidence closed</b><p>The jury is out.</p></div>`;
 $("#evSub").textContent = "Exhibits A to "+LET[ROLL.length-1]+". Submitted for your consideration. Keep scrolling to flick through.";
+// grid lightbox
+const lb=document.createElement("div"); lb.className="lightbox"; lb.hidden=true; lb.setAttribute("role","dialog"); lb.setAttribute("aria-modal","true"); lb.setAttribute("aria-label","Instagram grid");
+lb.innerHTML=`<button class="lbx" type="button" aria-label="Close">Close ✕</button><div class="lbin" data-lenis-prevent><img alt=""></div>`;
+document.body.appendChild(lb);
+let lbFrom=null;
+const openLB=el=>{ lbFrom=el; const im=lb.querySelector("img"); im.src="grids/"+el.dataset.grid+".jpg"; im.alt=el.querySelector("img").alt; lb.hidden=false; document.documentElement.style.overflow="hidden"; if(lenis) lenis.stop(); lb.querySelector(".lbx").focus(); };
+const closeLB=()=>{ lb.hidden=true; document.documentElement.style.overflow=""; if(lenis) lenis.start(); if(lbFrom) lbFrom.focus({preventScroll:true}); };
+document.querySelectorAll(".gcard").forEach(el=>{ el.addEventListener("click",()=>openLB(el)); el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openLB(el);} }); });
+lb.addEventListener("click",e=>{ if(e.target===lb||e.target.closest(".lbx")) closeLB(); });
+addEventListener("keydown",e=>{ if(e.key==="Escape"&&!lb.hidden) closeLB(); });
 // play videos only while on screen
 const vids=[...document.querySelectorAll(".vcard video")];
 if("IntersectionObserver" in window && !reduce){
@@ -607,7 +625,7 @@ if(G && ST && !reduce){
   ST.create({trigger:"#storyText",start:"top 80%",end:"bottom 45%",scrub:true,onUpdate:self=>{
     const n=Math.round(self.progress*ws.length); ws.forEach((w,i)=>w.classList.toggle("lit",i<n));
   }});
-  G.from(".letter p, .story .sign",{y:30,opacity:.2,duration:.9,ease:"power3.out",stagger:.12,scrollTrigger:{trigger:".letter",start:"top 88%"}});
+  G.from(".letter p, .story .luck, .story .sign",{y:30,opacity:.2,duration:.9,ease:"power3.out",stagger:.12,scrollTrigger:{trigger:".letter",start:"top 88%"}});
   // section heads stagger
   $$(".shead").forEach(h=>G.from(h.children,{y:40,opacity:.15,duration:.9,ease:"power3.out",stagger:.08,scrollTrigger:{trigger:h,start:"top 85%"}}));
   // horizontal film-roll: pinned on laptops, native swipe on touch
